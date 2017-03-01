@@ -14,6 +14,26 @@
 		082112211E650B80008333C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 082112201E650B80008333C8 /* Assets.xcassets */; };
 		082112241E650B80008333C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 082112221E650B80008333C8 /* LaunchScreen.storyboard */; };
 		0821122F1E650B80008333C8 /* BluetoothToolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821122E1E650B80008333C8 /* BluetoothToolTests.m */; };
+		082112421E650D94008333C8 /* HLBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123B1E650D94008333C8 /* HLBluetoothTool.m */; };
+		082112431E650D94008333C8 /* HLBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123B1E650D94008333C8 /* HLBluetoothTool.m */; };
+		082112441E650D94008333C8 /* HLDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123D1E650D94008333C8 /* HLDeviceModel.m */; };
+		082112451E650D94008333C8 /* HLDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123D1E650D94008333C8 /* HLDeviceModel.m */; };
+		082112481E650D94008333C8 /* HLDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112411E650D94008333C8 /* HLDevicesDetailCell.m */; };
+		082112491E650D94008333C8 /* HLDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112411E650D94008333C8 /* HLDevicesDetailCell.m */; };
+		0821124D1E6511F6008333C8 /* ISMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821124C1E6511F6008333C8 /* ISMessages.m */; };
+		0821124E1E6511F6008333C8 /* ISMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821124C1E6511F6008333C8 /* ISMessages.m */; };
+		082112511E6512F6008333C8 /* ISMessages+Alex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112501E6512F6008333C8 /* ISMessages+Alex.m */; };
+		082112521E6512F6008333C8 /* ISMessages+Alex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112501E6512F6008333C8 /* ISMessages+Alex.m */; };
+		082112551E656179008333C8 /* AYCallbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112541E656179008333C8 /* AYCallbackModel.m */; };
+		082112561E656179008333C8 /* AYCallbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112541E656179008333C8 /* AYCallbackModel.m */; };
+		0821125A1E657FE6008333C8 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112581E657FE6008333C8 /* TestViewController.m */; };
+		0821125B1E657FE6008333C8 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112581E657FE6008333C8 /* TestViewController.m */; };
+		0821125C1E657FE6008333C8 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082112591E657FE6008333C8 /* TestViewController.xib */; };
+		0821125D1E657FE6008333C8 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082112591E657FE6008333C8 /* TestViewController.xib */; };
+		082112601E66603D008333C8 /* HLMainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821125F1E66603D008333C8 /* HLMainNavigationController.m */; };
+		082112631E6660B2008333C8 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112621E6660B2008333C8 /* UIBarButtonItem+Extension.m */; };
+		082112661E66611B008333C8 /* UIColor+Help.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112651E66611B008333C8 /* UIColor+Help.m */; };
+		0821126A1E66614A008333C8 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112691E66614A008333C8 /* UIView+Extension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +60,29 @@
 		0821122A1E650B80008333C8 /* BluetoothToolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothToolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0821122E1E650B80008333C8 /* BluetoothToolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothToolTests.m; sourceTree = "<group>"; };
 		082112301E650B80008333C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0821123A1E650D94008333C8 /* HLBluetoothTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLBluetoothTool.h; sourceTree = "<group>"; };
+		0821123B1E650D94008333C8 /* HLBluetoothTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLBluetoothTool.m; sourceTree = "<group>"; };
+		0821123C1E650D94008333C8 /* HLDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLDeviceModel.h; sourceTree = "<group>"; };
+		0821123D1E650D94008333C8 /* HLDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLDeviceModel.m; sourceTree = "<group>"; };
+		082112401E650D94008333C8 /* HLDevicesDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLDevicesDetailCell.h; sourceTree = "<group>"; };
+		082112411E650D94008333C8 /* HLDevicesDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLDevicesDetailCell.m; sourceTree = "<group>"; };
+		0821124B1E6511F6008333C8 /* ISMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMessages.h; sourceTree = "<group>"; };
+		0821124C1E6511F6008333C8 /* ISMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMessages.m; sourceTree = "<group>"; };
+		0821124F1E6512F6008333C8 /* ISMessages+Alex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ISMessages+Alex.h"; sourceTree = "<group>"; };
+		082112501E6512F6008333C8 /* ISMessages+Alex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ISMessages+Alex.m"; sourceTree = "<group>"; };
+		082112531E656179008333C8 /* AYCallbackModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCallbackModel.h; sourceTree = "<group>"; };
+		082112541E656179008333C8 /* AYCallbackModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCallbackModel.m; sourceTree = "<group>"; };
+		082112571E657FE6008333C8 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		082112581E657FE6008333C8 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		082112591E657FE6008333C8 /* TestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestViewController.xib; sourceTree = "<group>"; };
+		0821125E1E66603D008333C8 /* HLMainNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLMainNavigationController.h; sourceTree = "<group>"; };
+		0821125F1E66603D008333C8 /* HLMainNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLMainNavigationController.m; sourceTree = "<group>"; };
+		082112611E6660B2008333C8 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
+		082112621E6660B2008333C8 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
+		082112641E66611B008333C8 /* UIColor+Help.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Help.h"; sourceTree = "<group>"; };
+		082112651E66611B008333C8 /* UIColor+Help.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Help.m"; sourceTree = "<group>"; };
+		082112681E66614A008333C8 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		082112691E66614A008333C8 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +124,18 @@
 		082112131E650B80008333C8 /* BluetoothTool */ = {
 			isa = PBXGroup;
 			children = (
+				082112671E666139008333C8 /* Categorites */,
+				0821124A1E6511F6008333C8 /* ISMessages */,
+				082112391E650D94008333C8 /* Bluetooth */,
 				082112171E650B80008333C8 /* AppDelegate.h */,
 				082112181E650B80008333C8 /* AppDelegate.m */,
+				0821125E1E66603D008333C8 /* HLMainNavigationController.h */,
+				0821125F1E66603D008333C8 /* HLMainNavigationController.m */,
 				0821121A1E650B80008333C8 /* ViewController.h */,
 				0821121B1E650B80008333C8 /* ViewController.m */,
+				082112571E657FE6008333C8 /* TestViewController.h */,
+				082112581E657FE6008333C8 /* TestViewController.m */,
+				082112591E657FE6008333C8 /* TestViewController.xib */,
 				0821121D1E650B80008333C8 /* Main.storyboard */,
 				082112201E650B80008333C8 /* Assets.xcassets */,
 				082112221E650B80008333C8 /* LaunchScreen.storyboard */,
@@ -109,6 +160,45 @@
 				082112301E650B80008333C8 /* Info.plist */,
 			);
 			path = BluetoothToolTests;
+			sourceTree = "<group>";
+		};
+		082112391E650D94008333C8 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				0821123A1E650D94008333C8 /* HLBluetoothTool.h */,
+				0821123B1E650D94008333C8 /* HLBluetoothTool.m */,
+				0821123C1E650D94008333C8 /* HLDeviceModel.h */,
+				0821123D1E650D94008333C8 /* HLDeviceModel.m */,
+				082112401E650D94008333C8 /* HLDevicesDetailCell.h */,
+				082112411E650D94008333C8 /* HLDevicesDetailCell.m */,
+				082112531E656179008333C8 /* AYCallbackModel.h */,
+				082112541E656179008333C8 /* AYCallbackModel.m */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		0821124A1E6511F6008333C8 /* ISMessages */ = {
+			isa = PBXGroup;
+			children = (
+				0821124F1E6512F6008333C8 /* ISMessages+Alex.h */,
+				082112501E6512F6008333C8 /* ISMessages+Alex.m */,
+				0821124B1E6511F6008333C8 /* ISMessages.h */,
+				0821124C1E6511F6008333C8 /* ISMessages.m */,
+			);
+			path = ISMessages;
+			sourceTree = "<group>";
+		};
+		082112671E666139008333C8 /* Categorites */ = {
+			isa = PBXGroup;
+			children = (
+				082112641E66611B008333C8 /* UIColor+Help.h */,
+				082112651E66611B008333C8 /* UIColor+Help.m */,
+				082112611E6660B2008333C8 /* UIBarButtonItem+Extension.h */,
+				082112621E6660B2008333C8 /* UIBarButtonItem+Extension.m */,
+				082112681E66614A008333C8 /* UIView+Extension.h */,
+				082112691E66614A008333C8 /* UIView+Extension.m */,
+			);
+			name = Categorites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,6 +287,7 @@
 			files = (
 				082112241E650B80008333C8 /* LaunchScreen.storyboard in Resources */,
 				082112211E650B80008333C8 /* Assets.xcassets in Resources */,
+				0821125C1E657FE6008333C8 /* TestViewController.xib in Resources */,
 				0821121F1E650B80008333C8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +296,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0821125D1E657FE6008333C8 /* TestViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,9 +307,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				082112661E66611B008333C8 /* UIColor+Help.m in Sources */,
+				082112631E6660B2008333C8 /* UIBarButtonItem+Extension.m in Sources */,
+				082112421E650D94008333C8 /* HLBluetoothTool.m in Sources */,
 				0821121C1E650B80008333C8 /* ViewController.m in Sources */,
+				082112441E650D94008333C8 /* HLDeviceModel.m in Sources */,
+				082112481E650D94008333C8 /* HLDevicesDetailCell.m in Sources */,
+				0821125A1E657FE6008333C8 /* TestViewController.m in Sources */,
 				082112191E650B80008333C8 /* AppDelegate.m in Sources */,
+				082112601E66603D008333C8 /* HLMainNavigationController.m in Sources */,
+				082112551E656179008333C8 /* AYCallbackModel.m in Sources */,
+				0821126A1E66614A008333C8 /* UIView+Extension.m in Sources */,
+				082112511E6512F6008333C8 /* ISMessages+Alex.m in Sources */,
 				082112161E650B80008333C8 /* main.m in Sources */,
+				0821124D1E6511F6008333C8 /* ISMessages.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +328,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				082112431E650D94008333C8 /* HLBluetoothTool.m in Sources */,
+				082112521E6512F6008333C8 /* ISMessages+Alex.m in Sources */,
+				082112561E656179008333C8 /* AYCallbackModel.m in Sources */,
+				0821124E1E6511F6008333C8 /* ISMessages.m in Sources */,
+				082112491E650D94008333C8 /* HLDevicesDetailCell.m in Sources */,
+				082112451E650D94008333C8 /* HLDeviceModel.m in Sources */,
+				0821125B1E657FE6008333C8 /* TestViewController.m in Sources */,
 				0821122F1E650B80008333C8 /* BluetoothToolTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +463,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = X77M95VSB8;
 				INFOPLIST_FILE = BluetoothTool/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexyang.BluetoothTool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -365,6 +476,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = X77M95VSB8;
 				INFOPLIST_FILE = BluetoothTool/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexyang.BluetoothTool;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -416,6 +528,7 @@
 				082112351E650B80008333C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		082112361E650B80008333C8 /* Build configuration list for PBXNativeTarget "BluetoothToolTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +537,7 @@
 				082112381E650B80008333C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
