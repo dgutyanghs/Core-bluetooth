@@ -33,6 +33,7 @@ static HLBluetoothTool *_instance = nil;
  */
 @property (nonatomic, strong) NSDictionary *msgDict;
 
+@property (nonatomic, strong, nullable) NSMutableArray <AYCallbackModel *> *callbackTasks;
 @end
 
 @implementation HLBluetoothTool
@@ -62,6 +63,31 @@ static HLBluetoothTool *_instance = nil;
 }
 
 
++ (BOOL)addCallbackBlockForDidUpdateValueForCharacteristic:(AYCallbackModel *) model {
+    if (_instance == nil) {
+        return NO;
+    }
+    
+    if ([_instance.callbackTasks containsObject:model]) {
+        return YES;
+    }else {
+        [_instance.callbackTasks addObject:model];
+    }
+    
+    return YES;
+}
+
++ (void)removeCallbackBlockByCommandType:(NSUInteger)commandType{
+    if (_instance == nil) {
+        return;
+    }
+    
+    for (AYCallbackModel *model in _instance.callbackTasks) {
+        if (model.command == commandType) {
+            [_instance.callbackTasks removeObject:model];
+        }
+    }
+}
 
 #pragma mark - bluetooth scan 
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central {
@@ -86,7 +112,7 @@ static HLBluetoothTool *_instance = nil;
 
 
 - (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *, id> *)dict {
-    NSLog(@"restoreState:%@", dict.debugDescription);
+    NSLog(@"blue test restoreState:%@", dict.debugDescription);
 }
 
 
@@ -103,16 +129,7 @@ static HLBluetoothTool *_instance = nil;
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-    NSLog(@"\n发现外设哇！%@ ", advertisementData.debugDescription);
-    
-    NSNumber *btAutoConnect = [[NSUserDefaults standardUserDefaults] objectForKey:BT_AUTO_CONNECT_SWITCH];
-    if (btAutoConnect.integerValue) {
-        NSString *uuidStr = [[NSUserDefaults standardUserDefaults] objectForKey:BT_AUTO_DEVICE];
-        if ([uuidStr isEqualToString:peripheral.identifier.UUIDString]) {
-            [ISMessages showResultMsg:@"蓝牙设备自动连接中..." title:peripheral.name Status:ISAlertTypeInfo];
-            [self connectPeripheral:peripheral options:nil];
-        }
-    }
+    NSLog(@"\n发现外设 %@ ", advertisementData.debugDescription);
     
     if ([self.delegate respondsToSelector:@selector(HLBluetoothCentralManager:didDiscoverPeripheral:advertisementData:RSSI:)]) {
         [self.delegate HLBluetoothCentralManager:central didDiscoverPeripheral:peripheral advertisementData:advertisementData RSSI:RSSI];
@@ -231,28 +248,6 @@ static HLBluetoothTool *_instance = nil;
     
     if ([self.delegate respondsToSelector:@selector(HLBluetoothPeripheral:didDiscoverCharacteristicsForService:error:)]) {
         [self.delegate HLBluetoothPeripheral:peripheral didDiscoverCharacteristicsForService:service error:error];
-    }
-#define IHEALTH_SERVICE                 @"fff0" //服务
-#define IHEALTH_FEATURE_RX              @"FFF7"
-#define IHEALTH_SETTING_TX              @"FFF6"
-    
-#define IHEALTH_DEVICE_INFO             @"180a" //device info 服务
-#define IHEALTH_DEVICE_SW_VERSION       @"2a26" //特征
-#define BATTERY_LEVEL_FEATURE           @"2A19" //battery feature
-    NSArray * characteristics = service.characteristics;
-    for (CBCharacteristic * characteristic in characteristics) {
-        //        HLLog(@"特征:%@", characteristic.UUID.UUIDString);
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:IHEALTH_FEATURE_RX]]) {
-            self.featureRX = characteristic;
-            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-        }
-        else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:IHEALTH_SETTING_TX]]) {
-            self.featureTX = characteristic;
-            
-        } else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:IHEALTH_DEVICE_SW_VERSION]]) {
-            self.featureFWVersion = characteristic;
-            [peripheral readValueForCharacteristic:characteristic];
-        }
     }
 }
 

@@ -50,10 +50,12 @@
 @property (strong, nonatomic, nullable, readonly) CBPeripheral * selectedPeripheral;
 @property (nonatomic, assign, readonly) CBPeripheralState state;
 //@property (nonatomic, strong, nullable) NSMutableArray <ay_didUpdateValueForCharacteristicBlock> *callBackTasks;
-@property (nonatomic, strong, nullable) NSMutableArray <AYCallbackModel *> *callbackTasks;
 
 
 +(nullable instancetype)sharedInstance;
+
++ (BOOL)addCallbackBlockForDidUpdateValueForCharacteristic:(nullable AYCallbackModel *) model ;
++ (void)removeCallbackBlockByCommandType:(NSUInteger)commandType;
 -(void)readRSSI;
 
 NS_ASSUME_NONNULL_BEGIN

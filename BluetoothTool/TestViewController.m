@@ -9,12 +9,14 @@
 #import "TestViewController.h"
 #import "AYCallbackModel.h"
 #import "HLBluetoothTool.h"
+#import "ISMessages+Alex.h"
 
 @interface TestViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *eventLabel;
 - (IBAction)addCallbackEvent:(id)sender;
 - (IBAction)deleteCallbackEvent:(id)sender;
 
+@property (nonatomic, strong) AYCallbackModel *model;
 @end
 
 @implementation TestViewController
@@ -42,13 +44,19 @@
         ptr = [data bytes];
         
         NSLog(@"event callback!! heart rate %d",ptr[1]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.eventLabel.text = [NSString stringWithFormat:@"%d", ptr[1]];
+        });
 
     };
     
-    HLBluetoothTool *btClient = [HLBluetoothTool sharedInstance];
-    [btClient.callbackTasks addObject:model];
+    [HLBluetoothTool addCallbackBlockForDidUpdateValueForCharacteristic:model];
+    self.model = model;
+    
 }
 
 - (IBAction)deleteCallbackEvent:(id)sender {
+    [HLBluetoothTool removeCallbackBlockByCommandType:self.model.command];
+    [ISMessages showSuccessMsg:[NSString stringWithFormat:@"command:0x%lx 移除完成", (unsigned long)self.model.command] title:@"remove callback"];
 }
 @end

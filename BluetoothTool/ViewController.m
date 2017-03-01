@@ -14,6 +14,15 @@
 #import "TestViewController.h"
 
 
+
+#define SERVICE                 @"fff0" //服务
+#define FEATURE_RX              @"FFF7"
+#define SETTING_TX              @"FFF6"
+    
+#define DEVICE_INFO             @"180a" //device info 服务
+#define DEVICE_SW_VERSION       @"2a26" //software 特征
+#define BATTERY_LEVEL_FEATURE   @"2A19" //battery feature
+
 typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
     PROTOCOL_ENUM_HEART_RATE_DATA_MODE  = 0x11,
     PROTOCOL_ENUM_TIME_RECEIVE          = 0x07,
@@ -111,7 +120,7 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
 }
 
 - (void)stopScanPeripherals:(UIButton *)sender {
-    
+    [self.btClient stopScan];
 }
 
 
@@ -170,10 +179,6 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
      CBPeripheral * peripheral = self.advertisePeripherals[indexPath.row];
     
     [self.btClient connectPeripheral:peripheral options:nil ];
-//     self.selectedPeripheralInTableView = peripheral;
-//     self.selectedIndexPath = indexPath;
-    
-//    [self confirmBtnClick:nil];
 }
 
 #pragma mark HLBluetoothDelegate
@@ -314,4 +319,25 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
     
     return protocolDict;
 }
+
+- (void)HLBluetoothPeripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
+    
+}
+
+- (void)HLBluetoothPeripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
+    
+    
+    NSArray * characteristics = service.characteristics;
+    for (CBCharacteristic * characteristic in characteristics) {
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:FEATURE_RX]]) {
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        }
+        else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:SETTING_TX]]) {
+            
+        } else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:DEVICE_SW_VERSION]]) {
+            [peripheral readValueForCharacteristic:characteristic];
+        }
+    }
+}
+
 @end
