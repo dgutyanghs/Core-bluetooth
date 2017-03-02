@@ -1,6 +1,5 @@
 //
 //  HLBluetoothTool.m
-//  CNOOC
 //
 //  Created by AlexYang on 16/7/8.
 //
@@ -9,6 +8,7 @@
 #import "HLBluetoothTool.h"
 #import "ISMessages+Alex.h"
 #import "AYCallbackModel.h"
+#import "CBPeripheral+AutoConnect.h"
 
 
 /**
@@ -26,14 +26,24 @@ static HLBluetoothTool *_instance = nil;
 @property (nonatomic , strong) CBCharacteristic *featureFWVersion;
 
 
-@property (nonatomic , strong) NSData *updateValueData;
+/**
+ callbackTasks的任务, 在下面函数被调用. 
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(nullable NSError *)error ;
+ */
+@property (nonatomic, strong, nullable) NSMutableArray <AYCallbackModel *> *callbackTasks;
 
 /**
- *  protocol 返回信息 查询dict
+ 自动重连的CBPeripheral 的identify.uuidstring list
+ */
+@property (nonatomic, strong) NSMutableArray <NSString *> *autoConnectIdentifies;
+
+@property (nonatomic, strong) NSMutableArray <CBPeripheral *> *connectedPeripherals;
+
+/**
+ *  用户的自定蓝牙 protocol, 每次执行,可打印相关结果. 
  */
 @property (nonatomic, strong) NSDictionary *msgDict;
 
-@property (nonatomic, strong, nullable) NSMutableArray <AYCallbackModel *> *callbackTasks;
 @end
 
 @implementation HLBluetoothTool
@@ -94,6 +104,7 @@ static HLBluetoothTool *_instance = nil;
     switch (central.state) {
         case CBCentralManagerStatePoweredOn:
             NSLog(@"蓝牙开启，准备扫描连接");
+            [self autoConnectPeripheralExecute];
             break;
         case CBCentralManagerStatePoweredOff:
             NSLog(@"蓝牙未打开");
@@ -113,6 +124,12 @@ static HLBluetoothTool *_instance = nil;
 
 - (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *, id> *)dict {
     NSLog(@"blue test restoreState:%@", dict.debugDescription);
+    NSArray *peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey];
+    
+    for (CBPeripheral *peripheral in peripherals) {
+        peripheral.delegate = self;
+    }
+    
 }
 
 
@@ -157,11 +174,12 @@ static HLBluetoothTool *_instance = nil;
  */
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     peripheral.delegate = self;
-    _selectedPeripheral = peripheral;
-    [[NSUserDefaults standardUserDefaults] setObject:peripheral.identifier.UUIDString forKey:BT_AUTO_DEVICE];
+//    _selectedPeripheral = peripheral;
+    peripheral.autoConnect = YES;
+    [self.autoConnectIdentifies addObject:peripheral.identifier.UUIDString];
+    [self.connectedPeripherals addObject:peripheral];
     
     [peripheral discoverServices:nil];
-    
     [peripheral readRSSI];
     
     if ([self.delegate respondsToSelector:@selector(HLBluetoothCentralManager:didConnectPeripheral:)]) {
@@ -172,6 +190,20 @@ static HLBluetoothTool *_instance = nil;
 }
 
 
+- (NSMutableArray *)autoConnectIdentifies {
+    if (_autoConnectIdentifies == nil) {
+        _autoConnectIdentifies = [NSMutableArray array];
+    }
+    
+    return _autoConnectIdentifies;
+}
+
+- (NSMutableArray<CBPeripheral *> *)connectedPeripherals {
+    if (_connectedPeripherals == nil) {
+        _connectedPeripherals = [NSMutableArray array];
+    }
+    return _connectedPeripherals;
+}
 
 /*
 *  连接外设失败后调用
@@ -201,13 +233,10 @@ static HLBluetoothTool *_instance = nil;
     _selectedPeripheral = nil;
     
     NSLog(@"disconnect error :%@",error.debugDescription);
-    if (error == nil) {//用户主动断开连接
-        
+    if (error == nil) {
+        //用户主动断开连接
     }else {
-        NSNumber *btAutoConnect = [[NSUserDefaults standardUserDefaults] objectForKey:BT_AUTO_CONNECT_SWITCH];
-        if (btAutoConnect.intValue) {
-            [self scanForPeripheralsWithServices:nil options:nil];
-        }
+        [self autoConnectPeripheralExecute];
     }
 }
 
@@ -286,8 +315,6 @@ static HLBluetoothTool *_instance = nil;
         }else {
             if (model.block) {
                 model.block(characteristic, error);
-                //return , not to call delegate method below;
-                return;
             }
         }
     }
@@ -323,7 +350,6 @@ static HLBluetoothTool *_instance = nil;
     }
     
     return (sum == checksumReceived) ? true:false;
-
 }
 
 -(void)HLBluetoothReadRSSI {
@@ -357,32 +383,40 @@ static HLBluetoothTool *_instance = nil;
 }
 
 
+/**
+  自动连接到, 已开启AutoConnect属性的CBPeripheral
+ */
 - (void)autoConnectPeripheralExecute {
     
-    if (self.selectedPeripheral.state == CBPeripheralStateConnected) {
-        return;
+    NSMutableArray *identifiers = [NSMutableArray arrayWithCapacity:self.autoConnectIdentifies.count];
+    for (NSString *uuidString in self.autoConnectIdentifies) {
+        NSUUID *identify = [[NSUUID alloc] initWithUUIDString:uuidString];
+        [identifiers addObject:identify];
     }
     
+    NSArray *peripherals = [_CBmgr retrievePeripheralsWithIdentifiers:identifiers];
+    [peripherals enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"retrievePeripheral:idx:%ld, name:%@, uuid:%@",idx, obj.name, obj.identifier.UUIDString);
+    }];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self scanForPeripheralsWithServices:nil options:nil];
-    });
+    for (CBPeripheral *peripheral in peripherals) {
+        [self connectPeripheral:peripheral options:nil];
+    }
 }
 
 
 
 
 
-- (BOOL)accessPeripheralByCommand:(NSData *)command  {
-    if (self.selectedPeripheral.state != CBPeripheralStateConnected) {
+- (BOOL)accessPeripheral:(CBPeripheral *)peripheral ByCommand:(NSData *)command  {
+    if (peripheral.state != CBPeripheralStateConnected) {
         NSLog(@"设备没连接");
         return false;
     }
     
     NSAssert(self.featureTX, @"featureTx is nil");
-    NSAssert(self.selectedPeripheral, @"selectedPeripheral is nil");
     
-    [self.selectedPeripheral writeValue:command forCharacteristic:self.featureTX type:CBCharacteristicWriteWithResponse];
+    [peripheral writeValue:command forCharacteristic:self.featureTX type:CBCharacteristicWriteWithResponse];
     
     return true;
 }
@@ -412,4 +446,24 @@ static HLBluetoothTool *_instance = nil;
 };
 
 
+
+- (void)configurePeripheral:(CBPeripheral *)peripheral ForAutoReconnect:(BOOL)autoConnect {
+    if (peripheral == nil) {
+        return;
+    }
+    
+    peripheral.autoConnect = autoConnect;
+    
+    NSString *identfyStr = peripheral.identifier.UUIDString;
+    if (autoConnect) {
+        if ([self.autoConnectIdentifies containsObject:identfyStr]) {
+            return;
+        }else {
+            [self.autoConnectIdentifies addObject:identfyStr];
+        }
+    }else {
+        [self.autoConnectIdentifies removeObject:identfyStr];
+    }
+    
+}
 @end

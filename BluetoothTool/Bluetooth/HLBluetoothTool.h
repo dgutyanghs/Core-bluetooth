@@ -83,8 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return detail Info according value
  */
 - (NSString *)queryBluetoothCommunicateMsgByValue:(const uint8_t)value;
+
+//- (void)addPeripheralToAutoReconnectList:(CBPeripheral *)peripheral;
+- (void)configurePeripheral:(CBPeripheral *)peripheral ForAutoReconnect:(BOOL)autoConnect;
 NS_ASSUME_NONNULL_END
 
-//calibrate time according your phone's time
-- (void)executeTimeCalibrateCommand;
 @end

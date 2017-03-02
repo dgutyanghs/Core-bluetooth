@@ -16,6 +16,7 @@
 - (IBAction)addCallbackEvent:(id)sender;
 - (IBAction)deleteCallbackEvent:(id)sender;
 - (IBAction)addTempCallbackEvent:(id)sender;
+- (IBAction)autoConnectSwitch:(UISwitch *)sender;
 
 @property (nonatomic, strong) AYCallbackModel *model;
 @end
@@ -87,4 +88,19 @@
         NSLog(@"command 0x12 移除");
     });
 }
+
+- (IBAction)autoConnectSwitch:(UISwitch *)sender {
+    if (sender.isOn) {
+         
+    }else {
+        
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    HLBluetoothTool *btClient = [HLBluetoothTool sharedInstance];
+    [btClient cannelPeripheralConnection:self.currentPeripheral];
+}
+
 @end

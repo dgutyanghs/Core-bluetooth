@@ -13,6 +13,7 @@
 @property (nonatomic, copy) NSString *UUIDStr;
 @property (nonatomic, assign, getter=isConnected) BOOL connected;
 @property (nonatomic, copy) NSString *deviceMAC;
+@property (nonatomic, assign, getter=isAutoReConnect) BOOL autoReConnect;
 
 
 +(instancetype)deviceWithName:(NSString *)name UUID:(NSString *)uuid status:(BOOL)status;

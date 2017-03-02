@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestViewController : UIViewController
 
+@class CBPeripheral;
+@interface TestViewController : UIViewController
+@property (nonatomic, strong) CBPeripheral *currentPeripheral;
 @end

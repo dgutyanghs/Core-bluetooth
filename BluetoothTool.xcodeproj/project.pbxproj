@@ -34,6 +34,7 @@
 		082112631E6660B2008333C8 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112621E6660B2008333C8 /* UIBarButtonItem+Extension.m */; };
 		082112661E66611B008333C8 /* UIColor+Help.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112651E66611B008333C8 /* UIColor+Help.m */; };
 		0821126A1E66614A008333C8 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112691E66614A008333C8 /* UIView+Extension.m */; };
+		08300F601E67B03D00585735 /* CBPeripheral+AutoConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 08300F5F1E67B03D00585735 /* CBPeripheral+AutoConnect.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,8 @@
 		082112651E66611B008333C8 /* UIColor+Help.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Help.m"; sourceTree = "<group>"; };
 		082112681E66614A008333C8 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		082112691E66614A008333C8 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		08300F5E1E67B03D00585735 /* CBPeripheral+AutoConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CBPeripheral+AutoConnect.h"; sourceTree = "<group>"; };
+		08300F5F1E67B03D00585735 /* CBPeripheral+AutoConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CBPeripheral+AutoConnect.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +168,8 @@
 		082112391E650D94008333C8 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
+				08300F5E1E67B03D00585735 /* CBPeripheral+AutoConnect.h */,
+				08300F5F1E67B03D00585735 /* CBPeripheral+AutoConnect.m */,
 				0821123A1E650D94008333C8 /* HLBluetoothTool.h */,
 				0821123B1E650D94008333C8 /* HLBluetoothTool.m */,
 				0821123C1E650D94008333C8 /* HLDeviceModel.h */,
@@ -310,6 +315,7 @@
 				082112661E66611B008333C8 /* UIColor+Help.m in Sources */,
 				082112631E6660B2008333C8 /* UIBarButtonItem+Extension.m in Sources */,
 				082112421E650D94008333C8 /* HLBluetoothTool.m in Sources */,
+				08300F601E67B03D00585735 /* CBPeripheral+AutoConnect.m in Sources */,
 				0821121C1E650B80008333C8 /* ViewController.m in Sources */,
 				082112441E650D94008333C8 /* HLDeviceModel.m in Sources */,
 				082112481E650D94008333C8 /* HLDevicesDetailCell.m in Sources */,

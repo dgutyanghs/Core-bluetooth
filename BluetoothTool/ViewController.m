@@ -202,15 +202,13 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
 
 - (void)HLBluetoothCentralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     
-   // save the uuid string , for automatic connect
-//    [[NSUserDefaults standardUserDefaults] setObject:peripheral.identifier.UUIDString forKey:BT_AUTO_DEVICE];
-    
     NSString *msg = [NSString stringWithFormat:@"设备:%@" ,peripheral.name];
     [ISMessages showSuccessMsg:msg title:@"蓝牙连接成功"];
     [self.tableView reloadData];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1* NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         TestViewController *testVc = [[TestViewController alloc] init];
+        testVc.currentPeripheral = peripheral;
         [self.navigationController pushViewController:testVc animated:YES];
     });
 }
