@@ -247,7 +247,7 @@
         if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:FEATURE_RX]]) {
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
         }
-        else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:SETTING_TX]]) {
+        else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:FEATURE_TX]]) {
             
         } else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:DEVICE_SW_VERSION]]) {
             [peripheral readValueForCharacteristic:characteristic];

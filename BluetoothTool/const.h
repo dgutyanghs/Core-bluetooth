@@ -10,9 +10,10 @@
 #define const_h
 
 
+#define BT_RESTORE_ID           @"mybluetoothrestoreid"
 #define SERVICE                 @"fff0" //服务
 #define FEATURE_RX              @"FFF7"
-#define SETTING_TX              @"FFF6"
+#define FEATURE_TX              @"FFF6"
     
 #define DEVICE_INFO             @"180a" //device info 服务
 #define DEVICE_SW_VERSION       @"2a26" //software 特征

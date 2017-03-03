@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
+
+
 #define BT_RESTORE_ID           @"mybluetoothrestoreid"
-
-
 /**
  当蓝牙peripheral断开连接时, 会发出NSNotification:DEVICE_DISCONNECT, userInfo中有DEVICE_NAME,和DEVICE_UUID_STRING信息
  */
@@ -20,6 +20,8 @@
 #define DEVICE_UUID_STRING      @"device_uuid_string"
 
 
+#define FEATURE_RX              @"FFF7"
+#define FEATURE_TX              @"FFF6"
 #define DEVICE_SW_VERSION               @"2a26" 
 #define BATTERY_LEVEL_FEATURE           @"2A19" //battery feature
 

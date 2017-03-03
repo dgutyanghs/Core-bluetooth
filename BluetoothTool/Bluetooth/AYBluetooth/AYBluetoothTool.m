@@ -11,6 +11,14 @@
 #import "CBPeripheral+AutoConnect.h"
 
 
+#define AY_PATH(fileName) [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:fileName]
+
+//归档和解档宏
+#define AY_ARCHIVE(object, fileName) [NSKeyedArchiver archiveRootObject:object toFile:AY_PATH(fileName)]
+#define AY_UNARCHIVE(fileName) [NSKeyedUnarchiver unarchiveObjectWithFile:AY_PATH(fileName)]
+
+
+#define DEVICES_AUTOCONNECT @"devices_autoconnect.out"
 /**
  *  蓝牙中心管理者
  */
@@ -21,7 +29,6 @@ static AYBluetoothTool *_instance = nil;
 @interface AYBluetoothTool ()<CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (nonatomic , strong, nonnull) NSArray<NSString*> *resultErrors;
-@property (nonatomic , strong) CBCharacteristic *featureRX;
 @property (nonatomic , strong) CBCharacteristic *featureTX;
 @property (nonatomic , strong) CBCharacteristic *featureFWVersion;
 
@@ -38,6 +45,7 @@ static AYBluetoothTool *_instance = nil;
 @property (nonatomic, strong) NSMutableArray <NSString *> *autoConnectIdentifies;
 
 @property (nonatomic, strong) NSMutableArray <CBPeripheral *> *connectedPeripherals;
+@property (nonatomic, strong) NSMutableArray <CBPeripheral *> *allPeripherals;
 
 /**
  *  用户的自定蓝牙通讯 protocol, 用户每次发出蓝牙command时,可打印执行后相关结果.
@@ -103,23 +111,19 @@ static AYBluetoothTool *_instance = nil;
 
 #pragma mark - bluetooth scan 
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    switch (central.state) {
-        case CBCentralManagerStatePoweredOn:
-            NSLog(@"蓝牙开启，准备扫描连接");
-            [self autoConnectPeripheralExecute];
-            break;
-        case CBCentralManagerStatePoweredOff:
-            NSLog(@"蓝牙未打开");
-            break;
-        case CBCentralManagerStateUnsupported:
-            NSLog(@"设备不支持蓝牙4.0!");
-            break;
-        case CBCentralManagerStateUnauthorized:
-            NSLog(@"设备未授权!");
-            break;
-        default:
-            NSLog(@"未知状态！");
-            break;
+    
+    if (central.state == CBCentralManagerStatePoweredOn) {
+        NSLog(@"蓝牙开启，准备扫描连接");
+        [self scanForPeripheralsWithServices:nil options:nil];
+        
+        for (CBPeripheral *peripheral in self.connectedPeripherals) {
+            if (peripheral.state != CBPeripheralStateConnected) {
+                [self connectPeripheral:peripheral options:nil];
+            }
+        }
+    }else {
+        NSLog(@"蓝牙未打开,或其他");
+        [self.connectedPeripherals removeAllObjects];
     }
 }
 
@@ -127,14 +131,26 @@ static AYBluetoothTool *_instance = nil;
 - (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *, id> *)dict {
     NSLog(@"blue test restoreState:%@", dict.debugDescription);
     NSArray *peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey];
-    
     for (CBPeripheral *peripheral in peripherals) {
+        [self.connectedPeripherals addObject:peripheral];
         peripheral.delegate = self;
     }
+    
+    [self scanForPeripheralsWithServices:nil options:nil];
+    
+    
+//    [self autoConnectPeripheralExecute];
     
 }
 
 
+- (NSMutableArray<CBPeripheral *> *)allPeripherals {
+    if (_allPeripherals == nil) {
+        _allPeripherals = [NSMutableArray array];
+    }
+    
+    return _allPeripherals;
+}
 
 #pragma mark - CBCentralManagerDelegate
 /**
@@ -175,10 +191,16 @@ static AYBluetoothTool *_instance = nil;
  *  @param peripheral 外设
  */
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+    
     peripheral.delegate = self;
-//    _selectedPeripheral = peripheral;
-    peripheral.autoConnect = YES;
-    [self.autoConnectIdentifies addObject:peripheral.identifier.UUIDString];
+    peripheral.autoConnect = YES; //自动连接开启
+    
+    NSString *uuidStr = peripheral.identifier.UUIDString;
+    if (![self.autoConnectIdentifies containsObject:uuidStr]) {
+        [self.autoConnectIdentifies addObject:uuidStr];
+        AY_ARCHIVE(self.autoConnectIdentifies, DEVICES_AUTOCONNECT);
+    }
+    
     [self.connectedPeripherals addObject:peripheral];
     
     [peripheral discoverServices:nil];
@@ -193,8 +215,12 @@ static AYBluetoothTool *_instance = nil;
 
 
 - (NSMutableArray *)autoConnectIdentifies {
+    
     if (_autoConnectIdentifies == nil) {
-        _autoConnectIdentifies = [NSMutableArray array];
+        _autoConnectIdentifies = AY_UNARCHIVE(DEVICES_AUTOCONNECT);
+        if (_autoConnectIdentifies == nil) {
+            _autoConnectIdentifies = [NSMutableArray array];
+        }
     }
     
     return _autoConnectIdentifies;
@@ -226,6 +252,7 @@ static AYBluetoothTool *_instance = nil;
  *  @param error      错误信息
  */
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+    [self.connectedPeripherals removeObject:peripheral];
     
     if ([self.delegate respondsToSelector:@selector(AYBluetoothCentralManager:didDisconnectPeripheral:error:)]) {
         [self.delegate AYBluetoothCentralManager:central didDisconnectPeripheral:peripheral error:error];
@@ -238,7 +265,7 @@ static AYBluetoothTool *_instance = nil;
     
     NSLog(@"disconnect error :%@",error.debugDescription);
     if (error == nil) {
-        //用户主动断开连接
+        //用户主动断开连接, 不执行auto connect
     }else {
         [self autoConnectPeripheralExecute];
     }
@@ -271,9 +298,24 @@ static AYBluetoothTool *_instance = nil;
  */
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     
+    NSArray * characteristics = service.characteristics;
+    for (CBCharacteristic * characteristic in characteristics) {
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:FEATURE_RX]]) {
+            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        }
+        else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:FEATURE_TX]]) {
+            self.featureTX = characteristic;
+        } else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:DEVICE_SW_VERSION]]) {
+            [peripheral readValueForCharacteristic:characteristic];
+        }
+    }
+    
+    
     if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didDiscoverCharacteristicsForService:error:)]) {
         [self.delegate AYBluetoothPeripheral:peripheral didDiscoverCharacteristicsForService:service error:error];
     }
+    
+    
 }
 
 
@@ -305,10 +347,10 @@ static AYBluetoothTool *_instance = nil;
     
     NSUInteger dataType = ptr[0];
     
-    if (self.msgDict != nil) {
+//    if (self.msgDict != nil) {
         NSString *retStr = [self queryBluetoothCommunicateMsgByValue:ptr[0]];
         NSLog(@"%@", retStr);
-    }
+//    }
     
     //callback
     for (AYCallbackModel *model in self.callbackTasks) {
@@ -387,15 +429,17 @@ static AYBluetoothTool *_instance = nil;
     }
     
     NSArray *peripherals = [_CBmgr retrievePeripheralsWithIdentifiers:identifiers];
-    [peripherals enumerateObjectsUsingBlock:^(CBPeripheral *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"retrievePeripheral:idx:%ld, name:%@, uuid:%@",idx, obj.name, obj.identifier.UUIDString);
-    }];
     
-    for (CBPeripheral *peripheral in peripherals) {
-        [self connectPeripheral:peripheral options:nil];
+    if (peripherals.count) {
+        for (CBPeripheral *peripheral in peripherals) {
+            if (peripheral.state != CBPeripheralStateConnected) {
+                [self connectPeripheral:peripheral options:nil];
+            }
+        }
+    }else {
+        [self scanForPeripheralsWithServices:nil options:nil];
     }
 }
-
 
 
 
@@ -454,4 +498,6 @@ static AYBluetoothTool *_instance = nil;
     }
     
 }
+
+
 @end
