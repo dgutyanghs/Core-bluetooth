@@ -90,7 +90,7 @@ static AYBluetoothTool *_instance = nil;
 }
 
 + (void)removeCallbackBlockByCommandType:(NSUInteger)commandType{
-    if (_instance == nil) {
+    if (_instance == nil || _instance.callbackTasks.count == 0) {
         return;
     }
     
@@ -231,7 +231,9 @@ static AYBluetoothTool *_instance = nil;
         [self.delegate AYBluetoothCentralManager:central didDisconnectPeripheral:peripheral error:error];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:BLUETOOTH_DISCONNECT object:nil];
+    
+    NSDictionary *dict = @{DEVICE_NAME:peripheral.name, DEVICE_UUID_STRING:peripheral.identifier.UUIDString};
+    [[NSNotificationCenter defaultCenter] postNotificationName:DEVICE_DISCONNECT object:nil userInfo:dict];
     _selectedPeripheral = nil;
     
     NSLog(@"disconnect error :%@",error.debugDescription);
@@ -302,6 +304,12 @@ static AYBluetoothTool *_instance = nil;
     
     
     NSUInteger dataType = ptr[0];
+    
+    if (self.msgDict != nil) {
+        NSString *retStr = [self queryBluetoothCommunicateMsgByValue:ptr[0]];
+        NSLog(@"%@", retStr);
+    }
+    
     //callback
     for (AYCallbackModel *model in self.callbackTasks) {
         if (model.command != dataType) {
@@ -335,16 +343,6 @@ static AYBluetoothTool *_instance = nil;
     NSLog(@"recieve AY data:%@", logStr);
 }
 
-
--(BOOL)calibrateReceivedData:(const unsigned char *)ptr {
-    uint8_t sum = 0;
-    uint8_t checksumReceived = ptr[PROTOCOL_LEN -1];
-    for (int i = 0; i < PROTOCOL_LEN - 1; i++) {
-        sum += ptr[i];
-    }
-    
-    return (sum == checksumReceived) ? true:false;
-}
 
 -(void)AYBluetoothReadRSSI {
     
@@ -415,10 +413,6 @@ static AYBluetoothTool *_instance = nil;
     return true;
 }
 
-
-- (CBPeripheralState)state {
-    return self.selectedPeripheral.state;
-}
 
 
 - (NSString *)queryBluetoothCommunicateMsgByValue:(const uint8_t)value {

@@ -10,6 +10,7 @@
 #import "AYCallbackModel.h"
 #import "AYBluetoothTool.h"
 #import "ISMessages+Alex.h"
+#import "const.h"
 
 @interface TestViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *eventLabel;
@@ -18,7 +19,6 @@
 - (IBAction)addTempCallbackEvent:(id)sender;
 - (IBAction)autoConnectSwitch:(UISwitch *)sender;
 
-@property (nonatomic, strong) AYCallbackModel *model;
 @end
 
 @implementation TestViewController
@@ -38,7 +38,7 @@
 - (IBAction)addCallbackEvent:(id)sender {
     AYCallbackModel *model = [[AYCallbackModel alloc] init];
     model.name = @"heart rate listen";
-    model.command = 0x11;
+    model.command = PROTOCOL_ENUM_HEART_RATE_DATA_MODE;
     model.block = ^(CBCharacteristic *characteristic,NSError *error) {
         NSData *data = nil;
         const unsigned char *ptr = NULL;
@@ -53,19 +53,17 @@
     };
     
     [AYBluetoothTool addCallbackBlockForDidUpdateValueForCharacteristic:model];
-    self.model = model;
-    
 }
 
 - (IBAction)deleteCallbackEvent:(id)sender {
-    [AYBluetoothTool removeCallbackBlockByCommandType:self.model.command];
-    [ISMessages showSuccessMsg:[NSString stringWithFormat:@"command:0x%lx 移除完成", (unsigned long)self.model.command] title:@"remove callback"];
+    [AYBluetoothTool removeCallbackBlockByCommandType:PROTOCOL_ENUM_HEART_RATE_DATA_MODE];
+    [ISMessages showSuccessMsg:[NSString stringWithFormat:@"command:PROTOCOL_ENUM_HEART_RATE_DATA_MODE 移除完成"] title:@"remove callback"];
 }
 
 - (IBAction)addTempCallbackEvent:(id)sender {
     AYCallbackModel *model = [[AYCallbackModel alloc] init];
     model.name = @"temp callback";
-    model.command = 0x12;
+    model.command = PROTOCOL_ENUM_DEVICE_MEASURE_STATUS;
     model.block = ^(CBCharacteristic *characteristic,NSError *error) {
         NSData *data = nil;
         const unsigned char *ptr = NULL;
@@ -77,13 +75,12 @@
     };
     
     [AYBluetoothTool addCallbackBlockForDidUpdateValueForCharacteristic:model];
-    self.model = model;
     
-    double delayInSeconds = 20.0;
+    double delayInSeconds = 10.0;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         //执行事件
-        [AYBluetoothTool removeCallbackBlockByCommandType:0x12];
+        [AYBluetoothTool removeCallbackBlockByCommandType:PROTOCOL_ENUM_DEVICE_MEASURE_STATUS];
         [ISMessages showSuccessMsg:@"command 0x12 移除" title:@"dispatch_after"];
         NSLog(@"command 0x12 移除");
     });

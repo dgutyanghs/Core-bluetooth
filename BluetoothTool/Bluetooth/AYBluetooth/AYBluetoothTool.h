@@ -9,11 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-#define PROTOCOL_LEN            20
 #define BT_RESTORE_ID           @"mybluetoothrestoreid"
-#define BT_AUTO_CONNECT_SWITCH  @"bluetoothautoconnectswitch"
-#define BT_AUTO_DEVICE          @"bluetoothautodevice"
-#define BLUETOOTH_DISCONNECT    @"bluetoothdisconnected"
+
+
+/**
+ 当蓝牙peripheral断开连接时, 会发出NSNotification:DEVICE_DISCONNECT, userInfo中有DEVICE_NAME,和DEVICE_UUID_STRING信息
+ */
+#define DEVICE_DISCONNECT       @"device_disconnected"
+#define DEVICE_NAME             @"device_name"
+#define DEVICE_UUID_STRING      @"device_uuid_string"
 
 
 #define DEVICE_SW_VERSION               @"2a26" 
@@ -80,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)autoConnectPeripheralExecute;
 
 //send command
--(BOOL)accessPeripheralByCommand:(NSData *)command;
+-(BOOL)accessPeripheral:(CBPeripheral *)peripheral ByCommand:(NSData *)command;
 
 /**
  *  query comuunicate result by receive Value

@@ -14,18 +14,10 @@
 		082112211E650B80008333C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 082112201E650B80008333C8 /* Assets.xcassets */; };
 		082112241E650B80008333C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 082112221E650B80008333C8 /* LaunchScreen.storyboard */; };
 		0821122F1E650B80008333C8 /* BluetoothToolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821122E1E650B80008333C8 /* BluetoothToolTests.m */; };
-		082112421E650D94008333C8 /* AYBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123B1E650D94008333C8 /* AYBluetoothTool.m */; };
-		082112431E650D94008333C8 /* AYBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123B1E650D94008333C8 /* AYBluetoothTool.m */; };
-		082112441E650D94008333C8 /* AYDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123D1E650D94008333C8 /* AYDeviceModel.m */; };
-		082112451E650D94008333C8 /* AYDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123D1E650D94008333C8 /* AYDeviceModel.m */; };
-		082112481E650D94008333C8 /* AYDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112411E650D94008333C8 /* AYDevicesDetailCell.m */; };
-		082112491E650D94008333C8 /* AYDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112411E650D94008333C8 /* AYDevicesDetailCell.m */; };
 		0821124D1E6511F6008333C8 /* ISMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821124C1E6511F6008333C8 /* ISMessages.m */; };
 		0821124E1E6511F6008333C8 /* ISMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821124C1E6511F6008333C8 /* ISMessages.m */; };
 		082112511E6512F6008333C8 /* ISMessages+Alex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112501E6512F6008333C8 /* ISMessages+Alex.m */; };
 		082112521E6512F6008333C8 /* ISMessages+Alex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112501E6512F6008333C8 /* ISMessages+Alex.m */; };
-		082112551E656179008333C8 /* AYCallbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112541E656179008333C8 /* AYCallbackModel.m */; };
-		082112561E656179008333C8 /* AYCallbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112541E656179008333C8 /* AYCallbackModel.m */; };
 		0821125A1E657FE6008333C8 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112581E657FE6008333C8 /* TestViewController.m */; };
 		0821125B1E657FE6008333C8 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112581E657FE6008333C8 /* TestViewController.m */; };
 		0821125C1E657FE6008333C8 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082112591E657FE6008333C8 /* TestViewController.xib */; };
@@ -34,7 +26,12 @@
 		082112631E6660B2008333C8 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112621E6660B2008333C8 /* UIBarButtonItem+Extension.m */; };
 		082112661E66611B008333C8 /* UIColor+Help.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112651E66611B008333C8 /* UIColor+Help.m */; };
 		0821126A1E66614A008333C8 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112691E66614A008333C8 /* UIView+Extension.m */; };
-		08300F601E67B03D00585735 /* CBPeripheral+AutoConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 08300F5F1E67B03D00585735 /* CBPeripheral+AutoConnect.m */; };
+		083D4BF71E693E8800BD785C /* AYBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BEE1E693E8800BD785C /* AYBluetoothTool.m */; };
+		083D4BF81E693E8800BD785C /* AYCallbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BF01E693E8800BD785C /* AYCallbackModel.m */; };
+		083D4BF91E693E8800BD785C /* CBPeripheral+AutoConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BF21E693E8800BD785C /* CBPeripheral+AutoConnect.m */; };
+		083D4BFA1E693E8800BD785C /* AYDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BF41E693E8800BD785C /* AYDeviceModel.m */; };
+		083D4BFB1E693E8800BD785C /* AYDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BF61E693E8800BD785C /* AYDevicesDetailCell.m */; };
+		083D4BFF1E69401100BD785C /* NSString+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BFE1E69401100BD785C /* NSString+HexString.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,18 +58,10 @@
 		0821122A1E650B80008333C8 /* BluetoothToolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothToolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0821122E1E650B80008333C8 /* BluetoothToolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothToolTests.m; sourceTree = "<group>"; };
 		082112301E650B80008333C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0821123A1E650D94008333C8 /* AYBluetoothTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBluetoothTool.h; sourceTree = "<group>"; };
-		0821123B1E650D94008333C8 /* AYBluetoothTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBluetoothTool.m; sourceTree = "<group>"; };
-		0821123C1E650D94008333C8 /* AYDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDeviceModel.h; sourceTree = "<group>"; };
-		0821123D1E650D94008333C8 /* AYDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDeviceModel.m; sourceTree = "<group>"; };
-		082112401E650D94008333C8 /* AYDevicesDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDevicesDetailCell.h; sourceTree = "<group>"; };
-		082112411E650D94008333C8 /* AYDevicesDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDevicesDetailCell.m; sourceTree = "<group>"; };
 		0821124B1E6511F6008333C8 /* ISMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMessages.h; sourceTree = "<group>"; };
 		0821124C1E6511F6008333C8 /* ISMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMessages.m; sourceTree = "<group>"; };
 		0821124F1E6512F6008333C8 /* ISMessages+Alex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ISMessages+Alex.h"; sourceTree = "<group>"; };
 		082112501E6512F6008333C8 /* ISMessages+Alex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ISMessages+Alex.m"; sourceTree = "<group>"; };
-		082112531E656179008333C8 /* AYCallbackModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCallbackModel.h; sourceTree = "<group>"; };
-		082112541E656179008333C8 /* AYCallbackModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCallbackModel.m; sourceTree = "<group>"; };
 		082112571E657FE6008333C8 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		082112581E657FE6008333C8 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		082112591E657FE6008333C8 /* TestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestViewController.xib; sourceTree = "<group>"; };
@@ -84,8 +73,19 @@
 		082112651E66611B008333C8 /* UIColor+Help.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Help.m"; sourceTree = "<group>"; };
 		082112681E66614A008333C8 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		082112691E66614A008333C8 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
-		08300F5E1E67B03D00585735 /* CBPeripheral+AutoConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CBPeripheral+AutoConnect.h"; sourceTree = "<group>"; };
-		08300F5F1E67B03D00585735 /* CBPeripheral+AutoConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CBPeripheral+AutoConnect.m"; sourceTree = "<group>"; };
+		083D4BED1E693E8800BD785C /* AYBluetoothTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBluetoothTool.h; sourceTree = "<group>"; };
+		083D4BEE1E693E8800BD785C /* AYBluetoothTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBluetoothTool.m; sourceTree = "<group>"; };
+		083D4BEF1E693E8800BD785C /* AYCallbackModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCallbackModel.h; sourceTree = "<group>"; };
+		083D4BF01E693E8800BD785C /* AYCallbackModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCallbackModel.m; sourceTree = "<group>"; };
+		083D4BF11E693E8800BD785C /* CBPeripheral+AutoConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CBPeripheral+AutoConnect.h"; sourceTree = "<group>"; };
+		083D4BF21E693E8800BD785C /* CBPeripheral+AutoConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CBPeripheral+AutoConnect.m"; sourceTree = "<group>"; };
+		083D4BF31E693E8800BD785C /* AYDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDeviceModel.h; sourceTree = "<group>"; };
+		083D4BF41E693E8800BD785C /* AYDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDeviceModel.m; sourceTree = "<group>"; };
+		083D4BF51E693E8800BD785C /* AYDevicesDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDevicesDetailCell.h; sourceTree = "<group>"; };
+		083D4BF61E693E8800BD785C /* AYDevicesDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDevicesDetailCell.m; sourceTree = "<group>"; };
+		083D4BFC1E693F1300BD785C /* const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = const.h; sourceTree = "<group>"; };
+		083D4BFD1E69401100BD785C /* NSString+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HexString.h"; sourceTree = "<group>"; };
+		083D4BFE1E69401100BD785C /* NSString+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HexString.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +132,7 @@
 				082112391E650D94008333C8 /* Bluetooth */,
 				082112171E650B80008333C8 /* AppDelegate.h */,
 				082112181E650B80008333C8 /* AppDelegate.m */,
+				083D4BFC1E693F1300BD785C /* const.h */,
 				0821125E1E66603D008333C8 /* HLMainNavigationController.h */,
 				0821125F1E66603D008333C8 /* HLMainNavigationController.m */,
 				0821121A1E650B80008333C8 /* ViewController.h */,
@@ -168,16 +169,11 @@
 		082112391E650D94008333C8 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
-				08300F5E1E67B03D00585735 /* CBPeripheral+AutoConnect.h */,
-				08300F5F1E67B03D00585735 /* CBPeripheral+AutoConnect.m */,
-				0821123A1E650D94008333C8 /* AYBluetoothTool.h */,
-				0821123B1E650D94008333C8 /* AYBluetoothTool.m */,
-				0821123C1E650D94008333C8 /* AYDeviceModel.h */,
-				0821123D1E650D94008333C8 /* AYDeviceModel.m */,
-				082112401E650D94008333C8 /* AYDevicesDetailCell.h */,
-				082112411E650D94008333C8 /* AYDevicesDetailCell.m */,
-				082112531E656179008333C8 /* AYCallbackModel.h */,
-				082112541E656179008333C8 /* AYCallbackModel.m */,
+				083D4BEC1E693E8800BD785C /* AYBluetooth */,
+				083D4BF31E693E8800BD785C /* AYDeviceModel.h */,
+				083D4BF41E693E8800BD785C /* AYDeviceModel.m */,
+				083D4BF51E693E8800BD785C /* AYDevicesDetailCell.h */,
+				083D4BF61E693E8800BD785C /* AYDevicesDetailCell.m */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -204,6 +200,21 @@
 				082112691E66614A008333C8 /* UIView+Extension.m */,
 			);
 			name = Categorites;
+			sourceTree = "<group>";
+		};
+		083D4BEC1E693E8800BD785C /* AYBluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				083D4BED1E693E8800BD785C /* AYBluetoothTool.h */,
+				083D4BEE1E693E8800BD785C /* AYBluetoothTool.m */,
+				083D4BEF1E693E8800BD785C /* AYCallbackModel.h */,
+				083D4BF01E693E8800BD785C /* AYCallbackModel.m */,
+				083D4BF11E693E8800BD785C /* CBPeripheral+AutoConnect.h */,
+				083D4BF21E693E8800BD785C /* CBPeripheral+AutoConnect.m */,
+				083D4BFD1E69401100BD785C /* NSString+HexString.h */,
+				083D4BFE1E69401100BD785C /* NSString+HexString.m */,
+			);
+			path = AYBluetooth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,20 +323,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				083D4BFB1E693E8800BD785C /* AYDevicesDetailCell.m in Sources */,
 				082112661E66611B008333C8 /* UIColor+Help.m in Sources */,
 				082112631E6660B2008333C8 /* UIBarButtonItem+Extension.m in Sources */,
-				082112421E650D94008333C8 /* AYBluetoothTool.m in Sources */,
-				08300F601E67B03D00585735 /* CBPeripheral+AutoConnect.m in Sources */,
 				0821121C1E650B80008333C8 /* ViewController.m in Sources */,
-				082112441E650D94008333C8 /* AYDeviceModel.m in Sources */,
-				082112481E650D94008333C8 /* AYDevicesDetailCell.m in Sources */,
 				0821125A1E657FE6008333C8 /* TestViewController.m in Sources */,
+				083D4BF91E693E8800BD785C /* CBPeripheral+AutoConnect.m in Sources */,
 				082112191E650B80008333C8 /* AppDelegate.m in Sources */,
 				082112601E66603D008333C8 /* HLMainNavigationController.m in Sources */,
-				082112551E656179008333C8 /* AYCallbackModel.m in Sources */,
+				083D4BFA1E693E8800BD785C /* AYDeviceModel.m in Sources */,
 				0821126A1E66614A008333C8 /* UIView+Extension.m in Sources */,
+				083D4BF71E693E8800BD785C /* AYBluetoothTool.m in Sources */,
+				083D4BF81E693E8800BD785C /* AYCallbackModel.m in Sources */,
 				082112511E6512F6008333C8 /* ISMessages+Alex.m in Sources */,
 				082112161E650B80008333C8 /* main.m in Sources */,
+				083D4BFF1E69401100BD785C /* NSString+HexString.m in Sources */,
 				0821124D1E6511F6008333C8 /* ISMessages.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,12 +346,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				082112431E650D94008333C8 /* AYBluetoothTool.m in Sources */,
 				082112521E6512F6008333C8 /* ISMessages+Alex.m in Sources */,
-				082112561E656179008333C8 /* AYCallbackModel.m in Sources */,
 				0821124E1E6511F6008333C8 /* ISMessages.m in Sources */,
-				082112491E650D94008333C8 /* AYDevicesDetailCell.m in Sources */,
-				082112451E650D94008333C8 /* AYDeviceModel.m in Sources */,
 				0821125B1E657FE6008333C8 /* TestViewController.m in Sources */,
 				0821122F1E650B80008333C8 /* BluetoothToolTests.m in Sources */,
 			);
