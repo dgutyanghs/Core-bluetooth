@@ -1,14 +1,14 @@
 //
-//  HLDevicesCell.m
+//  AYDevicesCell.m
 //  SmartCoach
 //
 //  Created by AlexYang on 15/8/11.
 //  Copyright (c) 2015年 SmartCoach. All rights reserved.
 //
 
-#import "HLDevicesDetailCell.h"
+#import "AYDevicesDetailCell.h"
 
-@implementation HLDevicesDetailCell
+@implementation AYDevicesDetailCell
 
 
 -(void)layoutSubviews
@@ -18,7 +18,7 @@
 
 
 
--(void)setDeviceModel:(HLDeviceModel *)deviceModel
+-(void)setDeviceModel:(AYDeviceModel *)deviceModel
 {
     _deviceModel = deviceModel;
     

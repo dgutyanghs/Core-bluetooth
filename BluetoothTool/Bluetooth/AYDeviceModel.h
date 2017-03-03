@@ -1,5 +1,5 @@
 //
-//  HLDeviceModel.h
+//  AYDeviceModel.h
 //  SmartCoach
 //
 //  Created by AlexYang on 15/8/11.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HLDeviceModel : NSObject
+@interface AYDeviceModel : NSObject
 @property (nonatomic, copy) NSString *deviceName;
 @property (nonatomic, copy) NSString *UUIDStr;
 @property (nonatomic, assign, getter=isConnected) BOOL connected;

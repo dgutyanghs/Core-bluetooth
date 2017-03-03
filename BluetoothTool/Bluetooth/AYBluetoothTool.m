@@ -1,11 +1,11 @@
 //
-//  HLBluetoothTool.m
+//  AYBluetoothTool.m
 //
 //  Created by AlexYang on 16/7/8.
 //
 //
 
-#import "HLBluetoothTool.h"
+#import "AYBluetoothTool.h"
 #import "ISMessages+Alex.h"
 #import "AYCallbackModel.h"
 #import "CBPeripheral+AutoConnect.h"
@@ -16,9 +16,9 @@
  */
 static CBCentralManager * _CBmgr;
 
-static HLBluetoothTool *_instance = nil;
+static AYBluetoothTool *_instance = nil;
 
-@interface HLBluetoothTool ()<CBCentralManagerDelegate, CBPeripheralDelegate>
+@interface AYBluetoothTool ()<CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (nonatomic , strong, nonnull) NSArray<NSString*> *resultErrors;
 @property (nonatomic , strong) CBCharacteristic *featureRX;
@@ -27,7 +27,7 @@ static HLBluetoothTool *_instance = nil;
 
 
 /**
- callbackTasks的任务, 在下面函数被调用. 
+  属性callbackTasks的任务, 在下面函数被调用.
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(nullable NSError *)error ;
  */
 @property (nonatomic, strong, nullable) NSMutableArray <AYCallbackModel *> *callbackTasks;
@@ -40,13 +40,15 @@ static HLBluetoothTool *_instance = nil;
 @property (nonatomic, strong) NSMutableArray <CBPeripheral *> *connectedPeripherals;
 
 /**
- *  用户的自定蓝牙 protocol, 每次执行,可打印相关结果. 
+ *  用户的自定蓝牙通讯 protocol, 用户每次发出蓝牙command时,可打印执行后相关结果.
+   说明: AYBluetoothTool初始化时, 会检测用户是否实现delegate了方法 .
+    - ( NSDictionary *)AYBluetoothProtocolDebugInfo;
  */
 @property (nonatomic, strong) NSDictionary *msgDict;
 
 @end
 
-@implementation HLBluetoothTool
+@implementation AYBluetoothTool
 
 +(id)allocWithZone:(struct _NSZone *)zone{
     static dispatch_once_t onceToken;
@@ -59,10 +61,10 @@ static HLBluetoothTool *_instance = nil;
 +(instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _instance = [[HLBluetoothTool alloc] init];
+        _instance = [[AYBluetoothTool alloc] init];
         _instance.callbackTasks  = [NSMutableArray array];
         if (_CBmgr == nil) {
-            _CBmgr = [[CBCentralManager alloc] initWithDelegate:_instance queue:nil options:@{CBCentralManagerOptionRestoreIdentifierKey:BT_RestoreID}];
+            _CBmgr = [[CBCentralManager alloc] initWithDelegate:_instance queue:nil options:@{CBCentralManagerOptionRestoreIdentifierKey:BT_RESTORE_ID}];
         }
     });
     return _instance;
@@ -148,8 +150,8 @@ static HLBluetoothTool *_instance = nil;
 {
     NSLog(@"\n发现外设 %@ ", advertisementData.debugDescription);
     
-    if ([self.delegate respondsToSelector:@selector(HLBluetoothCentralManager:didDiscoverPeripheral:advertisementData:RSSI:)]) {
-        [self.delegate HLBluetoothCentralManager:central didDiscoverPeripheral:peripheral advertisementData:advertisementData RSSI:RSSI];
+    if ([self.delegate respondsToSelector:@selector(AYBluetoothCentralManager:didDiscoverPeripheral:advertisementData:RSSI:)]) {
+        [self.delegate AYBluetoothCentralManager:central didDiscoverPeripheral:peripheral advertisementData:advertisementData RSSI:RSSI];
     }
     
 }
@@ -161,8 +163,8 @@ static HLBluetoothTool *_instance = nil;
         NSLog(@"%@", error.description);
     }else {
 //        NSLog(@"device:%@ RSSI:%d", peripheral.name, RSSI.intValue);
-        if ([self.delegate respondsToSelector:@selector(HLBluetoothPeripheral:didReadRSSI:error:)]) {
-            [self.delegate HLBluetoothPeripheral:peripheral didReadRSSI:RSSI error:error];
+        if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didReadRSSI:error:)]) {
+            [self.delegate AYBluetoothPeripheral:peripheral didReadRSSI:RSSI error:error];
         }
     }
 }
@@ -182,8 +184,8 @@ static HLBluetoothTool *_instance = nil;
     [peripheral discoverServices:nil];
     [peripheral readRSSI];
     
-    if ([self.delegate respondsToSelector:@selector(HLBluetoothCentralManager:didConnectPeripheral:)]) {
-        [self.delegate HLBluetoothCentralManager:central didConnectPeripheral:peripheral ];
+    if ([self.delegate respondsToSelector:@selector(AYBluetoothCentralManager:didConnectPeripheral:)]) {
+        [self.delegate AYBluetoothCentralManager:central didConnectPeripheral:peripheral ];
     }
     
     
@@ -225,8 +227,8 @@ static HLBluetoothTool *_instance = nil;
  */
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     
-    if ([self.delegate respondsToSelector:@selector(HLBluetoothCentralManager:didDisconnectPeripheral:error:)]) {
-        [self.delegate HLBluetoothCentralManager:central didDisconnectPeripheral:peripheral error:error];
+    if ([self.delegate respondsToSelector:@selector(AYBluetoothCentralManager:didDisconnectPeripheral:error:)]) {
+        [self.delegate AYBluetoothCentralManager:central didDisconnectPeripheral:peripheral error:error];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:BLUETOOTH_DISCONNECT object:nil];
@@ -251,19 +253,11 @@ static HLBluetoothTool *_instance = nil;
  */
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
     
-    NSArray * services = peripheral.services;
-    if ([self.delegate respondsToSelector:@selector(HLBluetoothPeripheral:didDiscoverServices:)]) {
-        [self.delegate HLBluetoothPeripheral:peripheral didDiscoverServices:error];
+    if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didDiscoverServices:)]) {
+        [self.delegate AYBluetoothPeripheral:peripheral didDiscoverServices:error];
     }
     
     
-    for (CBService * service in services) {
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] > 7.0) {
-            NSLog(@"serviceID : 0x%@",service.UUID.UUIDString);
-        }
-        [peripheral discoverCharacteristics:nil forService:service];
-        
-    }
 }
 
 /**
@@ -275,8 +269,8 @@ static HLBluetoothTool *_instance = nil;
  */
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     
-    if ([self.delegate respondsToSelector:@selector(HLBluetoothPeripheral:didDiscoverCharacteristicsForService:error:)]) {
-        [self.delegate HLBluetoothPeripheral:peripheral didDiscoverCharacteristicsForService:service error:error];
+    if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didDiscoverCharacteristicsForService:error:)]) {
+        [self.delegate AYBluetoothPeripheral:peripheral didDiscoverCharacteristicsForService:service error:error];
     }
 }
 
@@ -294,8 +288,8 @@ static HLBluetoothTool *_instance = nil;
     
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:BATTERY_LEVEL_FEATURE]]) {
         NSLog(@"get battery update :%@", characteristic.debugDescription);
-        if ([self.delegate respondsToSelector:@selector(HLBluetoothPeripheral:didUpdateBatteryLevel:)]) {
-            [self.delegate HLBluetoothPeripheral:peripheral didUpdateBatteryLevel:data];
+        if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didUpdateBatteryLevel:)]) {
+            [self.delegate AYBluetoothPeripheral:peripheral didUpdateBatteryLevel:data];
             return;
         }
     }
@@ -321,8 +315,8 @@ static HLBluetoothTool *_instance = nil;
     
     
     
-    if ([self.delegate respondsToSelector:@selector(HLBluetoothPeripheral:didUpdateValueForCharacteristic:error:)]) {
-        [self.delegate HLBluetoothPeripheral:peripheral didUpdateValueForCharacteristic:characteristic error:error];
+    if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didUpdateValueForCharacteristic:error:)]) {
+        [self.delegate AYBluetoothPeripheral:peripheral didUpdateValueForCharacteristic:characteristic error:error];
     }
 }
 
@@ -338,7 +332,7 @@ static HLBluetoothTool *_instance = nil;
         logStr = [logStr stringByAppendingFormat:@"0x%.2x ", *temp];
         temp++;
     }
-    NSLog(@"recieve HL data:%@", logStr);
+    NSLog(@"recieve AY data:%@", logStr);
 }
 
 
@@ -352,7 +346,7 @@ static HLBluetoothTool *_instance = nil;
     return (sum == checksumReceived) ? true:false;
 }
 
--(void)HLBluetoothReadRSSI {
+-(void)AYBluetoothReadRSSI {
     
     if (self.selectedPeripheral.state == CBPeripheralStateConnected) {
         [self.selectedPeripheral readRSSI];
@@ -429,8 +423,8 @@ static HLBluetoothTool *_instance = nil;
 
 - (NSString *)queryBluetoothCommunicateMsgByValue:(const uint8_t)value {
     if (self.msgDict == nil) {
-        if ([self.delegate respondsToSelector:@selector(HLBluetoothProtocolDebugInfo)]) {
-            _msgDict = [self.delegate HLBluetoothProtocolDebugInfo];
+        if ([self.delegate respondsToSelector:@selector(AYBluetoothProtocolDebugInfo)]) {
+            _msgDict = [self.delegate AYBluetoothProtocolDebugInfo];
         }
         
         if (_msgDict == nil) {

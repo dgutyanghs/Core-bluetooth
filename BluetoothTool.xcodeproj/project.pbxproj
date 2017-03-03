@@ -14,12 +14,12 @@
 		082112211E650B80008333C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 082112201E650B80008333C8 /* Assets.xcassets */; };
 		082112241E650B80008333C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 082112221E650B80008333C8 /* LaunchScreen.storyboard */; };
 		0821122F1E650B80008333C8 /* BluetoothToolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821122E1E650B80008333C8 /* BluetoothToolTests.m */; };
-		082112421E650D94008333C8 /* HLBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123B1E650D94008333C8 /* HLBluetoothTool.m */; };
-		082112431E650D94008333C8 /* HLBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123B1E650D94008333C8 /* HLBluetoothTool.m */; };
-		082112441E650D94008333C8 /* HLDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123D1E650D94008333C8 /* HLDeviceModel.m */; };
-		082112451E650D94008333C8 /* HLDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123D1E650D94008333C8 /* HLDeviceModel.m */; };
-		082112481E650D94008333C8 /* HLDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112411E650D94008333C8 /* HLDevicesDetailCell.m */; };
-		082112491E650D94008333C8 /* HLDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112411E650D94008333C8 /* HLDevicesDetailCell.m */; };
+		082112421E650D94008333C8 /* AYBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123B1E650D94008333C8 /* AYBluetoothTool.m */; };
+		082112431E650D94008333C8 /* AYBluetoothTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123B1E650D94008333C8 /* AYBluetoothTool.m */; };
+		082112441E650D94008333C8 /* AYDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123D1E650D94008333C8 /* AYDeviceModel.m */; };
+		082112451E650D94008333C8 /* AYDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821123D1E650D94008333C8 /* AYDeviceModel.m */; };
+		082112481E650D94008333C8 /* AYDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112411E650D94008333C8 /* AYDevicesDetailCell.m */; };
+		082112491E650D94008333C8 /* AYDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112411E650D94008333C8 /* AYDevicesDetailCell.m */; };
 		0821124D1E6511F6008333C8 /* ISMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821124C1E6511F6008333C8 /* ISMessages.m */; };
 		0821124E1E6511F6008333C8 /* ISMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 0821124C1E6511F6008333C8 /* ISMessages.m */; };
 		082112511E6512F6008333C8 /* ISMessages+Alex.m in Sources */ = {isa = PBXBuildFile; fileRef = 082112501E6512F6008333C8 /* ISMessages+Alex.m */; };
@@ -61,12 +61,12 @@
 		0821122A1E650B80008333C8 /* BluetoothToolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothToolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0821122E1E650B80008333C8 /* BluetoothToolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothToolTests.m; sourceTree = "<group>"; };
 		082112301E650B80008333C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0821123A1E650D94008333C8 /* HLBluetoothTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLBluetoothTool.h; sourceTree = "<group>"; };
-		0821123B1E650D94008333C8 /* HLBluetoothTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLBluetoothTool.m; sourceTree = "<group>"; };
-		0821123C1E650D94008333C8 /* HLDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLDeviceModel.h; sourceTree = "<group>"; };
-		0821123D1E650D94008333C8 /* HLDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLDeviceModel.m; sourceTree = "<group>"; };
-		082112401E650D94008333C8 /* HLDevicesDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLDevicesDetailCell.h; sourceTree = "<group>"; };
-		082112411E650D94008333C8 /* HLDevicesDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLDevicesDetailCell.m; sourceTree = "<group>"; };
+		0821123A1E650D94008333C8 /* AYBluetoothTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBluetoothTool.h; sourceTree = "<group>"; };
+		0821123B1E650D94008333C8 /* AYBluetoothTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBluetoothTool.m; sourceTree = "<group>"; };
+		0821123C1E650D94008333C8 /* AYDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDeviceModel.h; sourceTree = "<group>"; };
+		0821123D1E650D94008333C8 /* AYDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDeviceModel.m; sourceTree = "<group>"; };
+		082112401E650D94008333C8 /* AYDevicesDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDevicesDetailCell.h; sourceTree = "<group>"; };
+		082112411E650D94008333C8 /* AYDevicesDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDevicesDetailCell.m; sourceTree = "<group>"; };
 		0821124B1E6511F6008333C8 /* ISMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMessages.h; sourceTree = "<group>"; };
 		0821124C1E6511F6008333C8 /* ISMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMessages.m; sourceTree = "<group>"; };
 		0821124F1E6512F6008333C8 /* ISMessages+Alex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ISMessages+Alex.h"; sourceTree = "<group>"; };
@@ -170,12 +170,12 @@
 			children = (
 				08300F5E1E67B03D00585735 /* CBPeripheral+AutoConnect.h */,
 				08300F5F1E67B03D00585735 /* CBPeripheral+AutoConnect.m */,
-				0821123A1E650D94008333C8 /* HLBluetoothTool.h */,
-				0821123B1E650D94008333C8 /* HLBluetoothTool.m */,
-				0821123C1E650D94008333C8 /* HLDeviceModel.h */,
-				0821123D1E650D94008333C8 /* HLDeviceModel.m */,
-				082112401E650D94008333C8 /* HLDevicesDetailCell.h */,
-				082112411E650D94008333C8 /* HLDevicesDetailCell.m */,
+				0821123A1E650D94008333C8 /* AYBluetoothTool.h */,
+				0821123B1E650D94008333C8 /* AYBluetoothTool.m */,
+				0821123C1E650D94008333C8 /* AYDeviceModel.h */,
+				0821123D1E650D94008333C8 /* AYDeviceModel.m */,
+				082112401E650D94008333C8 /* AYDevicesDetailCell.h */,
+				082112411E650D94008333C8 /* AYDevicesDetailCell.m */,
 				082112531E656179008333C8 /* AYCallbackModel.h */,
 				082112541E656179008333C8 /* AYCallbackModel.m */,
 			);
@@ -314,11 +314,11 @@
 			files = (
 				082112661E66611B008333C8 /* UIColor+Help.m in Sources */,
 				082112631E6660B2008333C8 /* UIBarButtonItem+Extension.m in Sources */,
-				082112421E650D94008333C8 /* HLBluetoothTool.m in Sources */,
+				082112421E650D94008333C8 /* AYBluetoothTool.m in Sources */,
 				08300F601E67B03D00585735 /* CBPeripheral+AutoConnect.m in Sources */,
 				0821121C1E650B80008333C8 /* ViewController.m in Sources */,
-				082112441E650D94008333C8 /* HLDeviceModel.m in Sources */,
-				082112481E650D94008333C8 /* HLDevicesDetailCell.m in Sources */,
+				082112441E650D94008333C8 /* AYDeviceModel.m in Sources */,
+				082112481E650D94008333C8 /* AYDevicesDetailCell.m in Sources */,
 				0821125A1E657FE6008333C8 /* TestViewController.m in Sources */,
 				082112191E650B80008333C8 /* AppDelegate.m in Sources */,
 				082112601E66603D008333C8 /* HLMainNavigationController.m in Sources */,
@@ -334,12 +334,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				082112431E650D94008333C8 /* HLBluetoothTool.m in Sources */,
+				082112431E650D94008333C8 /* AYBluetoothTool.m in Sources */,
 				082112521E6512F6008333C8 /* ISMessages+Alex.m in Sources */,
 				082112561E656179008333C8 /* AYCallbackModel.m in Sources */,
 				0821124E1E6511F6008333C8 /* ISMessages.m in Sources */,
-				082112491E650D94008333C8 /* HLDevicesDetailCell.m in Sources */,
-				082112451E650D94008333C8 /* HLDeviceModel.m in Sources */,
+				082112491E650D94008333C8 /* AYDevicesDetailCell.m in Sources */,
+				082112451E650D94008333C8 /* AYDeviceModel.m in Sources */,
 				0821125B1E657FE6008333C8 /* TestViewController.m in Sources */,
 				0821122F1E650B80008333C8 /* BluetoothToolTests.m in Sources */,
 			);

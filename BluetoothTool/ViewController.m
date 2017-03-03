@@ -7,9 +7,9 @@
 //
 
 #import "ViewController.h"
-#import "HLBluetoothTool.h"
-#import "HLDeviceModel.h"
-#import "HLDevicesDetailCell.h"
+#import "AYBluetoothTool.h"
+#import "AYDeviceModel.h"
+#import "AYDevicesDetailCell.h"
 #import "ISMessages+Alex.h"
 #import "TestViewController.h"
 
@@ -73,11 +73,11 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
 };
 
 
-@interface ViewController () <HLBluetoothDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ViewController () <AYBluetoothDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *scanBtn;
 @property (weak, nonatomic) IBOutlet UIButton *stopScanBtn;
-@property (nonatomic, strong) HLBluetoothTool *btClient;
+@property (nonatomic, strong) AYBluetoothTool *btClient;
 
 @property (nonatomic, strong) NSMutableArray *advertisePeripherals;
 @property (nonatomic, strong) NSMutableDictionary *peripheralDict;
@@ -92,7 +92,7 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    HLBluetoothTool *btClient = [HLBluetoothTool sharedInstance];
+    AYBluetoothTool *btClient = [AYBluetoothTool sharedInstance];
     btClient.delegate = self;
     self.btClient = btClient;
     
@@ -156,12 +156,12 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
     }
     
     NSString *uuidStr = peripheral.identifier.UUIDString;
-    HLDeviceModel * deviceModel = [HLDeviceModel deviceWithName:name UUID:peripheral.identifier.UUIDString MAC:self.peripheralDict[uuidStr] status:isConnected];
+    AYDeviceModel * deviceModel = [AYDeviceModel deviceWithName:name UUID:peripheral.identifier.UUIDString MAC:self.peripheralDict[uuidStr] status:isConnected];
     
-    HLDevicesDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    AYDevicesDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
     if (cell == nil) {
-        cell = [[HLDevicesDetailCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        cell = [[AYDevicesDetailCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor blackColor];
         cell.detailTextLabel.textColor = [UIColor blackColor];
@@ -178,14 +178,14 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
      CBPeripheral * peripheral = self.advertisePeripherals[indexPath.row];
     
-    [self.btClient connectPeripheral:peripheral options:nil ];
+    NSDictionary *dict = @{CBConnectPeripheralOptionNotifyOnDisconnectionKey:@(YES), CBConnectPeripheralOptionNotifyOnNotificationKey:@(YES)};
+    [self.btClient connectPeripheral:peripheral options:dict ];
 }
 
-#pragma mark HLBluetoothDelegate
+#pragma mark AYBluetoothDelegate
 
-- (void)HLBluetoothCentralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
+- (void)AYBluetoothCentralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     
-//    NSString *name = peripheral.name;
     
     if (![self.advertisePeripherals containsObject:peripheral]) {
         [self.advertisePeripherals addObject:peripheral];
@@ -200,7 +200,7 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
 }
 
 
-- (void)HLBluetoothCentralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+- (void)AYBluetoothCentralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     
     NSString *msg = [NSString stringWithFormat:@"设备:%@" ,peripheral.name];
     [ISMessages showSuccessMsg:msg title:@"蓝牙连接成功"];
@@ -255,7 +255,7 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
 }
 
 
-- (NSDictionary *)HLBluetoothProtocolDebugInfo {
+- (NSDictionary *)AYBluetoothProtocolDebugInfo {
     
     NSDictionary  *protocolDict = @{
         @"0x01":@"发送命令:打开心率功能成功",
@@ -318,13 +318,31 @@ typedef NS_ENUM(uint8_t, PROTOCOL_ENUM) {
     return protocolDict;
 }
 
-- (void)HLBluetoothPeripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
+
+/**
+ 检测到peripheral的services后,的回调
+
+ @param peripheral device
+ @param error   error, default is nil
+ */
+- (void)AYBluetoothPeripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
     
+    NSArray * services = peripheral.services;
+    for (CBService * service in services) {
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] > 7.0) {
+            NSLog(@"serviceID : 0x%@",service.UUID.UUIDString);
+        }
+        // 对每个service进行检测, 得到它的Characteristics,
+        //函数回调 - (void)AYBluetoothPeripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error;
+        [peripheral discoverCharacteristics:nil forService:service];
+    }
 }
 
-- (void)HLBluetoothPeripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
-    
-    
+
+/**
+ 上面函数中, 执行[peripheral discoverCharacteristics:nil forService:service];得到的回调
+ */
+- (void)AYBluetoothPeripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error {
     NSArray * characteristics = service.characteristics;
     for (CBCharacteristic * characteristic in characteristics) {
         if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:FEATURE_RX]]) {
