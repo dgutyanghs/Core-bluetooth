@@ -13,6 +13,7 @@
 typedef void (^ay_didUpdateValueForCharacteristicBlock)(CBCharacteristic *characteristic,NSError *error);
 
 @interface AYCallbackModel : NSObject
+@property (nonatomic, copy) NSString *uuidString;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) NSUInteger command;
 @property (nonatomic, copy) ay_didUpdateValueForCharacteristicBlock block;

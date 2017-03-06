@@ -97,16 +97,44 @@ static AYBluetoothTool *_instance = nil;
     return YES;
 }
 
-+ (void)removeCallbackBlockByCommandType:(NSUInteger)commandType{
+
+/**
+  remove the tasks in the callbacktasks array
+ 
+ @param uuidString peripheral uuidstring 
+ @param commandType       if commandType is 0xFFFFFFFF, then call all tasks for this peripheral 
+ */
++ (void)removeCallbackBlockByPeripheralUUID:(NSString *)uuidString CommandType:(NSUInteger)commandType{
     if (_instance == nil || _instance.callbackTasks.count == 0) {
         return;
     }
     
-    for (AYCallbackModel *model in _instance.callbackTasks) {
-        if (model.command == commandType) {
+    if (uuidString == nil) {
+        NSLog(@"error, uuidString is nil");
+        return;
+    }
+    
+    for (int i = 0; i < _instance.callbackTasks.count; i++) {
+        AYCallbackModel *model = _instance.callbackTasks[i];
+        if (commandType == ANY_COMMAND_TYPE) {
+            if ([model.uuidString isEqualToString:uuidString]) {
+                [_instance.callbackTasks removeObject:model];
+                NSLog(@"remove peripheral:%@ all callbacktask", uuidString);
+            }
+        }else if ((model.command == commandType) && [model.uuidString isEqualToString:uuidString]) {
             [_instance.callbackTasks removeObject:model];
         }
     }
+    
+//    for (AYCallbackModel *model in _instance.callbackTasks) {
+//        if (commandType == ANY_COMMAND_TYPE) {
+//            if ([model.uuidString isEqualToString:uuidString]) {
+//                [_instance.callbackTasks removeObject:model];
+//            }
+//        }else if ((model.command == commandType) && [model.uuidString isEqualToString:uuidString]) {
+//            [_instance.callbackTasks removeObject:model];
+//        }
+//    }
 }
 
 #pragma mark - bluetooth scan 
@@ -258,6 +286,7 @@ static AYBluetoothTool *_instance = nil;
         [self.delegate AYBluetoothCentralManager:central didDisconnectPeripheral:peripheral error:error];
     }
     
+    [AYBluetoothTool removeCallbackBlockByPeripheralUUID:peripheral.identifier.UUIDString CommandType:ANY_COMMAND_TYPE];
     
     NSDictionary *dict = @{DEVICE_NAME:peripheral.name, DEVICE_UUID_STRING:peripheral.identifier.UUIDString};
     [[NSNotificationCenter defaultCenter] postNotificationName:DEVICE_DISCONNECT object:nil userInfo:dict];
@@ -354,7 +383,7 @@ static AYBluetoothTool *_instance = nil;
     
     //callback
     for (AYCallbackModel *model in self.callbackTasks) {
-        if (model.command != dataType) {
+        if ((model.command != dataType) || (![model.uuidString isEqualToString: peripheral.identifier.UUIDString])) {
             continue;
         }else {
             if (model.block) {

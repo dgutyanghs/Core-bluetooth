@@ -25,6 +25,8 @@
 #define DEVICE_SW_VERSION               @"2a26" 
 #define BATTERY_LEVEL_FEATURE           @"2A19" //battery feature
 
+#define ANY_COMMAND_TYPE  0xFFFFFFFF
+
 @protocol AYBluetoothDelegate <NSObject>
 
 @optional
@@ -65,7 +67,15 @@
 +(nullable instancetype)sharedInstance;
 
 + (BOOL)addCallbackBlockForDidUpdateValueForCharacteristic:(nullable AYCallbackModel *) model ;
-+ (void)removeCallbackBlockByCommandType:(NSUInteger)commandType;
+
+/**
+  remove the tasks in the callbacktasks array
+ 
+ @param uuidString peripheral uuidstring 
+ @param commandType       if commandType is 0xFFFFFFFF, then call all tasks for this peripheral 
+ */
++ (void)removeCallbackBlockByPeripheralUUID:(nonnull NSString *)uuidString CommandType:(NSUInteger)commandType;
+
 - (void)readRSSI;
 
 NS_ASSUME_NONNULL_BEGIN
