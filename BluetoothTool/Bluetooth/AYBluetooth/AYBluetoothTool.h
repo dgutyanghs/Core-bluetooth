@@ -76,8 +76,6 @@
  */
 + (void)removeCallbackBlockByPeripheralUUID:(nonnull NSString *)uuidString CommandType:(NSUInteger)commandType;
 
-- (void)readRSSI;
-
 NS_ASSUME_NONNULL_BEGIN
 //connect device
 - (void)connectPeripheral:(CBPeripheral *)peripheral options:(nullable NSDictionary<NSString *,id> *)options ;

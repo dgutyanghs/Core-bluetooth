@@ -140,6 +140,8 @@ static AYBluetoothTool *_instance = nil;
                 [self connectPeripheral:peripheral options:nil];
             }
         }
+        
+        [self autoConnectPeripheralExecute];
     }else {
         NSLog(@"蓝牙未打开,或其他");
         [self.connectedPeripherals removeAllObjects];
@@ -158,7 +160,7 @@ static AYBluetoothTool *_instance = nil;
     [self scanForPeripheralsWithServices:nil options:nil];
     
     
-//    [self autoConnectPeripheralExecute];
+    [self autoConnectPeripheralExecute];
     
 }
 
