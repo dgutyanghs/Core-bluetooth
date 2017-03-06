@@ -126,18 +126,9 @@ static AYBluetoothTool *_instance = nil;
         }
     }
     
-//    for (AYCallbackModel *model in _instance.callbackTasks) {
-//        if (commandType == ANY_COMMAND_TYPE) {
-//            if ([model.uuidString isEqualToString:uuidString]) {
-//                [_instance.callbackTasks removeObject:model];
-//            }
-//        }else if ((model.command == commandType) && [model.uuidString isEqualToString:uuidString]) {
-//            [_instance.callbackTasks removeObject:model];
-//        }
-//    }
 }
 
-#pragma mark - bluetooth scan 
+#pragma mark - bluetooth scan
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central {
     
     if (central.state == CBCentralManagerStatePoweredOn) {
