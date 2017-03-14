@@ -57,7 +57,6 @@
     NSDictionary *userInfo = aNotification.userInfo;
     NSString *name = userInfo[DEVICE_NAME];
     NSString *uuidStr = userInfo[DEVICE_UUID_STRING];
-    
     [self.tableView reloadData];
     [ISMessages showWarningMsg:[NSString stringWithFormat:@"设备%@(UUID:%@)断开连接", name, uuidStr] title:@"设备断开"];
 }

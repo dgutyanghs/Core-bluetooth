@@ -72,7 +72,8 @@ static AYBluetoothTool *_instance = nil;
         _instance = [[AYBluetoothTool alloc] init];
         _instance.callbackTasks  = [NSMutableArray array];
         if (_CBmgr == nil) {
-            _CBmgr = [[CBCentralManager alloc] initWithDelegate:_instance queue:nil options:@{CBCentralManagerOptionRestoreIdentifierKey:BT_RESTORE_ID}];
+            dispatch_queue_t bluetoothQ = dispatch_queue_create("com.dgutyanghs.bluetoothqueue", DISPATCH_QUEUE_SERIAL);
+            _CBmgr = [[CBCentralManager alloc] initWithDelegate:_instance queue:bluetoothQ options:@{CBCentralManagerOptionRestoreIdentifierKey:BT_RESTORE_ID}];
         }
     });
     return _instance;
@@ -133,7 +134,11 @@ static AYBluetoothTool *_instance = nil;
     
     if (central.state == CBCentralManagerStatePoweredOn) {
         NSLog(@"蓝牙开启，准备扫描连接");
-        [self scanForPeripheralsWithServices:nil options:nil];
+//        [self scanForPeripheralsWithServices:nil options:nil];
+        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
+        NSArray <CBUUID *> *device = @[uuid];
+        NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey : @0};
+        [self scanForPeripheralsWithServices:device options:options];
         
         for (CBPeripheral *peripheral in self.connectedPeripherals) {
             if (peripheral.state != CBPeripheralStateConnected) {
@@ -157,7 +162,11 @@ static AYBluetoothTool *_instance = nil;
         peripheral.delegate = self;
     }
     
-    [self scanForPeripheralsWithServices:nil options:nil];
+        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
+        NSArray <CBUUID *> *device = @[uuid];
+        NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey : @0};
+        [self scanForPeripheralsWithServices:device options:options];
+//    [self scanForPeripheralsWithServices:nil options:nil];
     
     
     [self autoConnectPeripheralExecute];
@@ -188,7 +197,9 @@ static AYBluetoothTool *_instance = nil;
     NSLog(@"\n发现外设 %@ ", advertisementData.debugDescription);
     
     if ([self.delegate respondsToSelector:@selector(AYBluetoothCentralManager:didDiscoverPeripheral:advertisementData:RSSI:)]) {
-        [self.delegate AYBluetoothCentralManager:central didDiscoverPeripheral:peripheral advertisementData:advertisementData RSSI:RSSI];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate AYBluetoothCentralManager:central didDiscoverPeripheral:peripheral advertisementData:advertisementData RSSI:RSSI];
+        });
     }
     
 }
@@ -201,7 +212,9 @@ static AYBluetoothTool *_instance = nil;
     }else {
 //        NSLog(@"device:%@ RSSI:%d", peripheral.name, RSSI.intValue);
         if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didReadRSSI:error:)]) {
-            [self.delegate AYBluetoothPeripheral:peripheral didReadRSSI:RSSI error:error];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate AYBluetoothPeripheral:peripheral didReadRSSI:RSSI error:error];
+            });
         }
     }
 }
@@ -228,7 +241,9 @@ static AYBluetoothTool *_instance = nil;
     [peripheral readRSSI];
     
     if ([self.delegate respondsToSelector:@selector(AYBluetoothCentralManager:didConnectPeripheral:)]) {
-        [self.delegate AYBluetoothCentralManager:central didConnectPeripheral:peripheral ];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate AYBluetoothCentralManager:central didConnectPeripheral:peripheral ];
+        });
     }
     
     
@@ -276,13 +291,18 @@ static AYBluetoothTool *_instance = nil;
     [self.connectedPeripherals removeObject:peripheral];
     
     if ([self.delegate respondsToSelector:@selector(AYBluetoothCentralManager:didDisconnectPeripheral:error:)]) {
-        [self.delegate AYBluetoothCentralManager:central didDisconnectPeripheral:peripheral error:error];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate AYBluetoothCentralManager:central didDisconnectPeripheral:peripheral error:error];
+        });
     }
     
     [AYBluetoothTool removeCallbackBlockByPeripheralUUID:peripheral.identifier.UUIDString CommandType:ANY_COMMAND_TYPE];
     
     NSDictionary *dict = @{DEVICE_NAME:peripheral.name, DEVICE_UUID_STRING:peripheral.identifier.UUIDString};
-    [[NSNotificationCenter defaultCenter] postNotificationName:DEVICE_DISCONNECT object:nil userInfo:dict];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:DEVICE_DISCONNECT object:nil userInfo:dict];
+    });
     _selectedPeripheral = nil;
     
     NSLog(@"disconnect error :%@",error.debugDescription);
@@ -305,7 +325,10 @@ static AYBluetoothTool *_instance = nil;
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error {
     
     if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didDiscoverServices:)]) {
-        [self.delegate AYBluetoothPeripheral:peripheral didDiscoverServices:error];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate AYBluetoothPeripheral:peripheral didDiscoverServices:error];
+        });
     }
     
     
@@ -334,7 +357,9 @@ static AYBluetoothTool *_instance = nil;
     
     
     if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didDiscoverCharacteristicsForService:error:)]) {
-        [self.delegate AYBluetoothPeripheral:peripheral didDiscoverCharacteristicsForService:service error:error];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate AYBluetoothPeripheral:peripheral didDiscoverCharacteristicsForService:service error:error];
+        });
     }
     
     
@@ -355,8 +380,10 @@ static AYBluetoothTool *_instance = nil;
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:BATTERY_LEVEL_FEATURE]]) {
         NSLog(@"get battery update :%@", characteristic.debugDescription);
         if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didUpdateBatteryLevel:)]) {
-            [self.delegate AYBluetoothPeripheral:peripheral didUpdateBatteryLevel:data];
-            return;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate AYBluetoothPeripheral:peripheral didUpdateBatteryLevel:data];
+                return;
+            });
         }
     }
     
@@ -380,7 +407,9 @@ static AYBluetoothTool *_instance = nil;
             continue;
         }else {
             if (model.block) {
-                model.block(characteristic, error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    model.block(characteristic, error);
+                });
             }
         }
     }
@@ -388,7 +417,9 @@ static AYBluetoothTool *_instance = nil;
     
     
     if ([self.delegate respondsToSelector:@selector(AYBluetoothPeripheral:didUpdateValueForCharacteristic:error:)]) {
-        [self.delegate AYBluetoothPeripheral:peripheral didUpdateValueForCharacteristic:characteristic error:error];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate AYBluetoothPeripheral:peripheral didUpdateValueForCharacteristic:characteristic error:error];
+        });
     }
 }
 
@@ -450,7 +481,10 @@ static AYBluetoothTool *_instance = nil;
         [identifiers addObject:identify];
     }
     
-    NSArray *peripherals = [_CBmgr retrievePeripheralsWithIdentifiers:identifiers];
+//    NSArray *peripherals = [_CBmgr retrievePeripheralsWithIdentifiers:identifiers];
+        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
+        NSArray <CBUUID *> *device = @[uuid];
+    NSArray *peripherals = [_CBmgr retrieveConnectedPeripheralsWithServices:device];
     
     if (peripherals.count) {
         for (CBPeripheral *peripheral in peripherals) {
@@ -459,7 +493,10 @@ static AYBluetoothTool *_instance = nil;
             }
         }
     }else {
-        [self scanForPeripheralsWithServices:nil options:nil];
+        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
+        NSArray <CBUUID *> *device = @[uuid];
+        NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey : @0};
+        [self scanForPeripheralsWithServices:device options:options];
     }
 }
 
