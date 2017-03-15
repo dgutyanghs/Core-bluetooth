@@ -32,6 +32,7 @@
 		083D4BFA1E693E8800BD785C /* AYDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BF41E693E8800BD785C /* AYDeviceModel.m */; };
 		083D4BFB1E693E8800BD785C /* AYDevicesDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BF61E693E8800BD785C /* AYDevicesDetailCell.m */; };
 		083D4BFF1E69401100BD785C /* NSString+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 083D4BFE1E69401100BD785C /* NSString+HexString.m */; };
+		08D01D7A1E790F310080D5E0 /* UILocalNotification+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 08D01D791E790F310080D5E0 /* UILocalNotification+Extension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,8 @@
 		083D4BFC1E693F1300BD785C /* const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = const.h; sourceTree = "<group>"; };
 		083D4BFD1E69401100BD785C /* NSString+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HexString.h"; sourceTree = "<group>"; };
 		083D4BFE1E69401100BD785C /* NSString+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HexString.m"; sourceTree = "<group>"; };
+		08D01D781E790F310080D5E0 /* UILocalNotification+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILocalNotification+Extension.h"; sourceTree = "<group>"; };
+		08D01D791E790F310080D5E0 /* UILocalNotification+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILocalNotification+Extension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +216,8 @@
 				083D4BF21E693E8800BD785C /* CBPeripheral+AutoConnect.m */,
 				083D4BFD1E69401100BD785C /* NSString+HexString.h */,
 				083D4BFE1E69401100BD785C /* NSString+HexString.m */,
+				08D01D781E790F310080D5E0 /* UILocalNotification+Extension.h */,
+				08D01D791E790F310080D5E0 /* UILocalNotification+Extension.m */,
 			);
 			path = AYBluetooth;
 			sourceTree = "<group>";
@@ -324,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				083D4BFB1E693E8800BD785C /* AYDevicesDetailCell.m in Sources */,
+				08D01D7A1E790F310080D5E0 /* UILocalNotification+Extension.m in Sources */,
 				082112661E66611B008333C8 /* UIColor+Help.m in Sources */,
 				082112631E6660B2008333C8 /* UIBarButtonItem+Extension.m in Sources */,
 				0821121C1E650B80008333C8 /* ViewController.m in Sources */,

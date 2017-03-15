@@ -9,6 +9,7 @@
 #import "ISMessages+Alex.h"
 #import "AYCallbackModel.h"
 #import "CBPeripheral+AutoConnect.h"
+#import "UILocalNotification+Extension.h"
 
 
 #define AY_PATH(fileName) [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:fileName]
@@ -265,6 +266,10 @@ static AYBluetoothTool *_instance = nil;
             [self.delegate AYBluetoothCentralManager:central didConnectPeripheral:peripheral ];
         });
     }
+   
+    NSString *msg = [NSString stringWithFormat:@"%@ 连接上了", peripheral.name];
+    [UILocalNotification registerLocalNotification:0 string:msg key:@"connect "];
+    
     
     
 }
@@ -337,7 +342,6 @@ static AYBluetoothTool *_instance = nil;
         }
         NSLog(@"try to connect to peripheral:%@", peripheral.identifier.UUIDString);
         [self connectPeripheral:peripheral options:self.connectOption];
-        
     }
 }
 
@@ -550,15 +554,15 @@ static AYBluetoothTool *_instance = nil;
     
     peripheral.autoConnect = autoConnect;
     
-    NSString *identfyStr = peripheral.identifier.UUIDString;
+    NSUUID *identfy = peripheral.identifier;
     if (autoConnect) {
-        if ([self.autoConnectIdentifies containsObject:identfyStr]) {
+        if ([self.autoConnectIdentifies containsObject:identfy]) {
             return;
         }else {
-            [self.autoConnectIdentifies addObject:identfyStr];
+            [self.autoConnectIdentifies addObject:identfy];
         }
     }else {
-        [self.autoConnectIdentifies removeObject:identfyStr];
+        [self.autoConnectIdentifies removeObject:identfy];
     }
     
 }
