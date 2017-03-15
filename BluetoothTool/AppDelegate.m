@@ -19,12 +19,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     NSArray *centralManagerIndetifiers = launchOptions[UIApplicationLaunchOptionsBluetoothCentralsKey];
-    
-    for (NSString *identifier in centralManagerIndetifiers) {
-        if ([identifier isEqualToString:BT_RESTORE_ID]) {
-            
-        }
-    }
+//    
+//    for (NSString *identifier in centralManagerIndetifiers) {
+//        if ([identifier isEqualToString:BT_RESTORE_ID]) {
+//            
+//        }
+//    }
     return YES;
 }
 

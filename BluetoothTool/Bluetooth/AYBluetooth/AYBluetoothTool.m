@@ -42,10 +42,13 @@ static AYBluetoothTool *_instance = nil;
 /**
  自动重连的CBPeripheral 的identify.uuidstring list
  */
-@property (nonatomic, strong) NSMutableArray <NSString *> *autoConnectIdentifies;
+@property (nonatomic, strong) NSMutableArray <NSUUID *> *autoConnectIdentifies;
 
 @property (nonatomic, strong) NSMutableArray <CBPeripheral *> *connectedPeripherals;
 @property (nonatomic, strong) NSMutableArray <CBPeripheral *> *allPeripherals;
+@property (nonatomic, strong) NSMutableArray <CBPeripheral *> *knownPeripherals;
+
+@property (nonatomic, strong) NSDictionary *connectOption;
 
 /**
  *  用户的自定蓝牙通讯 protocol, 用户每次发出蓝牙command时,可打印执行后相关结果.
@@ -73,7 +76,8 @@ static AYBluetoothTool *_instance = nil;
         _instance.callbackTasks  = [NSMutableArray array];
         if (_CBmgr == nil) {
             dispatch_queue_t bluetoothQ = dispatch_queue_create("com.dgutyanghs.bluetoothqueue", DISPATCH_QUEUE_SERIAL);
-            _CBmgr = [[CBCentralManager alloc] initWithDelegate:_instance queue:bluetoothQ options:@{CBCentralManagerOptionRestoreIdentifierKey:BT_RESTORE_ID}];
+//            _CBmgr = [[CBCentralManager alloc] initWithDelegate:_instance queue:bluetoothQ options:@{CBCentralManagerOptionRestoreIdentifierKey:BT_RESTORE_ID}];
+            _CBmgr = [[CBCentralManager alloc] initWithDelegate:_instance queue:bluetoothQ options:@{CBCentralManagerOptionShowPowerAlertKey:@YES}];
         }
     });
     return _instance;
@@ -129,24 +133,31 @@ static AYBluetoothTool *_instance = nil;
     
 }
 
+- (NSMutableArray<CBPeripheral *> *)knownPeripherals {
+    if (_knownPeripherals == nil) {
+        _knownPeripherals = [NSMutableArray array];
+    }
+    
+    return _knownPeripherals;
+}
+
 #pragma mark - bluetooth scan
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central {
     
     if (central.state == CBCentralManagerStatePoweredOn) {
         NSLog(@"蓝牙开启，准备扫描连接");
-//        [self scanForPeripheralsWithServices:nil options:nil];
-        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
-        NSArray <CBUUID *> *device = @[uuid];
-        NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey : @0};
-        [self scanForPeripheralsWithServices:device options:options];
         
-        for (CBPeripheral *peripheral in self.connectedPeripherals) {
-            if (peripheral.state != CBPeripheralStateConnected) {
-                [self connectPeripheral:peripheral options:nil];
+        self.knownPeripherals = (NSMutableArray *)[_CBmgr retrievePeripheralsWithIdentifiers:self.autoConnectIdentifies];
+        
+        if (self.knownPeripherals.count) {
+            for (CBPeripheral *peripheral in self.knownPeripherals) {
+                [self connectPeripheral:peripheral options:self.connectOption];
+                NSLog(@"connecting to peripheral:%@", peripheral.identifier.UUIDString);
             }
+        } else {
+            NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey : @0};
+            [self scanForPeripheralsWithServices:nil options:options];
         }
-        
-        [self autoConnectPeripheralExecute];
     }else {
         NSLog(@"蓝牙未打开,或其他");
         [self.connectedPeripherals removeAllObjects];
@@ -154,22 +165,31 @@ static AYBluetoothTool *_instance = nil;
 }
 
 
-- (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *, id> *)dict {
-    NSLog(@"blue test restoreState:%@", dict.debugDescription);
-    NSArray *peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey];
-    for (CBPeripheral *peripheral in peripherals) {
-        [self.connectedPeripherals addObject:peripheral];
-        peripheral.delegate = self;
+- (NSDictionary *)connectOption {
+    if (_connectOption == nil) {
+        _connectOption = @{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES};
     }
     
-        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
-        NSArray <CBUUID *> *device = @[uuid];
-        NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey : @0};
-        [self scanForPeripheralsWithServices:device options:options];
+    return _connectOption;
+}
+
+
+- (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *, id> *)dict {
+    NSLog(@"!!blue test restoreState:%@", dict.debugDescription);
+//    NSArray *peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey];
+//    for (CBPeripheral *peripheral in peripherals) {
+//        [self.connectedPeripherals addObject:peripheral];
+//        peripheral.delegate = self;
+//    }
+//    
+//        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
+//        NSArray <CBUUID *> *device = @[uuid];
+//        NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey : @0};
+//        [self scanForPeripheralsWithServices:device options:options];
 //    [self scanForPeripheralsWithServices:nil options:nil];
     
     
-    [self autoConnectPeripheralExecute];
+//    [self autoConnectPeripheralExecute];
     
 }
 
@@ -229,9 +249,9 @@ static AYBluetoothTool *_instance = nil;
     peripheral.delegate = self;
     peripheral.autoConnect = YES; //自动连接开启
     
-    NSString *uuidStr = peripheral.identifier.UUIDString;
-    if (![self.autoConnectIdentifies containsObject:uuidStr]) {
-        [self.autoConnectIdentifies addObject:uuidStr];
+    NSUUID  *uuid = peripheral.identifier;
+    if (![self.autoConnectIdentifies containsObject:uuid]) {
+        [self.autoConnectIdentifies addObject:uuid];
         AY_ARCHIVE(self.autoConnectIdentifies, DEVICES_AUTOCONNECT);
     }
     
@@ -288,7 +308,8 @@ static AYBluetoothTool *_instance = nil;
  *  @param error      错误信息
  */
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
-    [self.connectedPeripherals removeObject:peripheral];
+    
+//    [self.connectedPeripherals removeObject:peripheral];
     
     if ([self.delegate respondsToSelector:@selector(AYBluetoothCentralManager:didDisconnectPeripheral:error:)]) {
         
@@ -297,19 +318,26 @@ static AYBluetoothTool *_instance = nil;
         });
     }
     
+    // clear callback event of this peripheral
     [AYBluetoothTool removeCallbackBlockByPeripheralUUID:peripheral.identifier.UUIDString CommandType:ANY_COMMAND_TYPE];
-    
+   
+    //post a notification
     NSDictionary *dict = @{DEVICE_NAME:peripheral.name, DEVICE_UUID_STRING:peripheral.identifier.UUIDString};
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:DEVICE_DISCONNECT object:nil userInfo:dict];
     });
     _selectedPeripheral = nil;
     
-    NSLog(@"disconnect error :%@",error.debugDescription);
     if (error == nil) {
         //用户主动断开连接, 不执行auto connect
     }else {
-        [self autoConnectPeripheralExecute];
+        NSLog(@"!!Peripheral:%@ disconnect error :%@",peripheral.identifier.UUIDString, error.debugDescription);
+        if (![self.knownPeripherals containsObject:peripheral]) {
+            [self.knownPeripherals addObject:peripheral];
+        }
+        NSLog(@"try to connect to peripheral:%@", peripheral.identifier.UUIDString);
+        [self connectPeripheral:peripheral options:self.connectOption];
+        
     }
 }
 
@@ -475,29 +503,6 @@ static AYBluetoothTool *_instance = nil;
  */
 - (void)autoConnectPeripheralExecute {
     
-    NSMutableArray *identifiers = [NSMutableArray arrayWithCapacity:self.autoConnectIdentifies.count];
-    for (NSString *uuidString in self.autoConnectIdentifies) {
-        NSUUID *identify = [[NSUUID alloc] initWithUUIDString:uuidString];
-        [identifiers addObject:identify];
-    }
-    
-//    NSArray *peripherals = [_CBmgr retrievePeripheralsWithIdentifiers:identifiers];
-        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
-        NSArray <CBUUID *> *device = @[uuid];
-    NSArray *peripherals = [_CBmgr retrieveConnectedPeripheralsWithServices:device];
-    
-    if (peripherals.count) {
-        for (CBPeripheral *peripheral in peripherals) {
-            if (peripheral.state != CBPeripheralStateConnected) {
-                [self connectPeripheral:peripheral options:nil];
-            }
-        }
-    }else {
-        CBUUID *uuid = [CBUUID UUIDWithString:FEATURE_TX];
-        NSArray <CBUUID *> *device = @[uuid];
-        NSDictionary *options = @{CBCentralManagerScanOptionAllowDuplicatesKey : @0};
-        [self scanForPeripheralsWithServices:device options:options];
-    }
 }
 
 
