@@ -90,9 +90,6 @@ NS_ASSUME_NONNULL_BEGIN
 //scan services
 - (void)scanForPeripheralsWithServices:(nullable NSArray<CBUUID *> *)services options:(nullable NSDictionary<NSString *, id> *)options;
 
-//auto reconnect peripheral
--(void)autoConnectPeripheralExecute;
-
 //send command
 -(BOOL)accessPeripheral:(CBPeripheral *)peripheral ByCommand:(NSData *)command;
 
@@ -106,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)queryBluetoothCommunicateMsgByValue:(const uint8_t)value;
 
 // set peripheral autoConnect flag
-- (void)configurePeripheral:(CBPeripheral *)peripheral ForAutoReconnect:(BOOL)autoConnect;
+//- (void)configurePeripheral:(CBPeripheral *)peripheral ForAutoReconnect:(BOOL)autoConnect;
 
 NS_ASSUME_NONNULL_END
 
