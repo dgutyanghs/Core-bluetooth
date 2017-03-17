@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "const.h"
+#import "ISMessages+Alex.h"
 
 @interface AppDelegate ()
 
@@ -25,6 +26,7 @@
 //            
 //        }
 //    }
+    [ISMessages showWarningMsg:@"app 重新启动了" title:@"!!!!"];
     return YES;
 }
 

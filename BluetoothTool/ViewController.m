@@ -138,7 +138,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
      CBPeripheral * peripheral = self.advertisePeripherals[indexPath.row];
     
-    NSDictionary *dict = @{CBConnectPeripheralOptionNotifyOnDisconnectionKey:@(YES), CBConnectPeripheralOptionNotifyOnNotificationKey:@(YES)};
+    NSDictionary *dict = @{CBConnectPeripheralOptionNotifyOnDisconnectionKey:@(YES), CBConnectPeripheralOptionNotifyOnNotificationKey:@(YES), CBConnectPeripheralOptionNotifyOnDisconnectionKey:@(YES)};
     
     [self.btClient connectPeripheral:peripheral options:dict ];
 }

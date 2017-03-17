@@ -167,7 +167,7 @@ static AYBluetoothTool *_instance = nil;
 
 - (NSDictionary *)connectOption {
     if (_connectOption == nil) {
-        _connectOption = @{CBConnectPeripheralOptionNotifyOnConnectionKey:@YES};
+    _connectOption = @{CBConnectPeripheralOptionNotifyOnDisconnectionKey:@(YES), CBConnectPeripheralOptionNotifyOnNotificationKey:@(YES), CBConnectPeripheralOptionNotifyOnDisconnectionKey:@(YES)};
     }
     
     return _connectOption;
